@@ -1,0 +1,23 @@
+{
+    "id1":
+    {
+        "name":"Ashu",
+        "pwd":"pwd1",
+        "taskMargin":8,
+        "theme":"light"
+    },
+    "id2":
+    {
+        "name":"Suraj",
+        "pwd":"pwd2",
+        "taskMargin":8,
+        "theme":"dark"
+    },
+    "id3":
+    {
+        "name":"Yash",
+        "pwd":"pwd3",
+        "taskMargin":8,
+        "theme":"dark"
+    }
+}

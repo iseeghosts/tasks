@@ -1,0 +1,20 @@
+{
+    "id1":{
+        "taskMargin":8,
+        "alwaysshowsearch":false,
+        "SearchResultFound":0,
+        "theme":"dark"     
+    },
+    "id2":{
+        "taskMargin":8,
+        "alwaysshowsearch":true,
+        "SearchResultFound":0,
+        "theme":"light"      
+    },
+    "id3":{
+        "taskMargin":8,
+        "alwaysshowsearch":false,
+        "SearchResultFound":0,
+        "theme":"dark"  
+    }
+}

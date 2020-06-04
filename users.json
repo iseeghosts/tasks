@@ -1,0 +1,17 @@
+{
+    "id1":
+    {
+        "name":"Ashu",
+        "pwd":"pwd1"
+    },
+    "id2":
+    {
+        "name":"Suraj",
+        "pwd":"pwd2"
+    },
+    "id3":
+    {
+        "name":"Yash",
+        "pwd":"pwd3"
+    }
+}
