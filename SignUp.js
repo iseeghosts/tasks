@@ -30,14 +30,12 @@ export default class SignUp extends Component {
             displaySignUpBox:'none',
             enablePass1:true,
             enablePass2:true,
-            showPass1:true,
-            showPass2:true,
             result:'',
             result2:'',
             User_Status:Userid_Check,
             Pass_View1:Hide_Pass,
             Pass_View2:Hide_Pass,
-            disableButton:false,
+            disableButton:true,
             dark:true
         }
         }
@@ -77,7 +75,6 @@ export default class SignUp extends Component {
         reset_field1 = () => {
             this.setState({
                 enablePass2:(String(this.state.password2).length==''),
-                showPass2:true,
                 Pass_View2:Hide_Pass,
                 result:'',
                 result2:''
@@ -92,7 +89,6 @@ export default class SignUp extends Component {
         reset_field2 = () => {
             this.setState({
                 enablePass1:(String(this.state.password).length==''),
-                showPass1:true,
                 Pass_View1:Hide_Pass,
                 result:'',
                 result2:''
@@ -178,13 +174,10 @@ export default class SignUp extends Component {
                         <View style={[styles.firstcontainer, {backgroundColor:dark?'darkgrey':'skyblue'}]}>
                             <Text style={styles.useridtext}>enter a userid to signup with...</Text>
                             <View style={[styles.useridbox, {backgroundColor:dark?'lightgrey':'white'}]}>
-
-                                <TextInput textContentType="username" onEndEditing={()=>this.check_availability()}
-                                    style={styles.inputuserid}
-                                    autoCapitalize='none'
-                                    defaultValue={this.state.userid}
-                                    placeholder={'userid'} onChangeText={(userid)=>this.setState({userid})}
-                                    onChange={() => this.reset_fields()} />
+                                <TextInput textContentType="username" onEndEditing={()=>{if (!this.state.disableButton) this.check_availability()}}
+                                    style={styles.inputuserid} autoCapitalize='none' placeholder={'userid'} returnKeyType='go'
+                                    onChangeText={(userid)=>this.setState({userid})} enablesReturnKeyAutomatically={true}
+                                    onChange={() => this.reset_fields()} keyboardAppearance={dark?'dark':'light'} />
 
                                 <View style={styles.useridverify}>
                                     <TouchableHighlight  style={styles.useridverifybutton} onPress={()=>this.check_availability()}  activeOpacity={1} underlayColor='steelblue' disabled={true} >
@@ -196,20 +189,23 @@ export default class SignUp extends Component {
                             <View style={signupbox}>
                                 <Text style={styles.useridtext}>enter your name...</Text>
                                 <View style={[styles.username, , {backgroundColor:dark?'lightgrey':'white'}]}>
-                                    <TextInput textContentType="name" style={styles.inputname} defaultValue={this.state.name}
-                                                placeholder={'Enter Name!'} onChangeText={(name)=>this.setState({name})}
-                                                onChange={()=>this.setState({result:'', result2:''})} />
+                                    <TextInput textContentType="name" style={styles.inputname}
+                                        onSubmitEditing={() => { this.newpass.focus(); }} placeholder={'Enter Name!'}
+                                        onChangeText={(name)=>this.setState({name})} keyboardAppearance={dark?'dark':'light'}
+                                        onChange={()=>this.setState({result:'', result2:''})} returnKeyType="next" blurOnSubmit={false}
+                                        />
                                 </View>
 
                                 <Text style={styles.useridtext}>enter a password...</Text>
 
                                 <View style={passwordbox}>
                                     {/* Field 1 */}
-                                    <TextInput textContentType="newPassword" secureTextEntry={this.state.showPass1} style={styles.inputpassword} placeholderTextColor={'gray'}
-                                        placeholder={'Enter Your Password Here!'}
-                                        defaultValue={this.state.password}                                
+                                    <TextInput textContentType="newPassword" secureTextEntry={this.state.Pass_View1==Hide_Pass}
+                                        style={styles.inputpassword} placeholderTextColor={'gray'}
+                                        placeholder={'Enter Your Password Here!'} keyboardAppearance={dark?'dark':'light'}
                                         onChangeText={(password) => this.setState({password})}
-                                        onChange={() => this.reset_field1()}
+                                        onChange={() => this.reset_field1()} ref={(input) => { this.newpass = input;}}
+                                        blurOnSubmit={false} returnKeyType="next" onSubmitEditing={() => { this.confpass.focus(); }}
                                         />
 
                                     <TouchableOpacity
@@ -217,7 +213,7 @@ export default class SignUp extends Component {
                                         disabled={(!this.state.enablePass1)}
                                         underlayColor={'#747474'}
                                         style={styles.passwordview} 
-                                        onPress={()=> this.setState({showPass1:!this.state.showPass1, Pass_View1:(this.state.Pass_View1==Hide_Pass ? Show_Pass:Hide_Pass)})}>
+                                        onPress={()=> this.setState({Pass_View1:(this.state.Pass_View1==Hide_Pass ? Show_Pass:Hide_Pass)})}>
                                         <Image style={styles.thumb} source={this.state.Pass_View1} />
                                     </TouchableOpacity>
                                 </View>
@@ -226,12 +222,12 @@ export default class SignUp extends Component {
 
                                 <View style={passwordbox}>
                                     {/* field 2 */}
-                                    <TextInput textContentType="newPassword" secureTextEntry={this.state.showPass2}
+                                    <TextInput textContentType="newPassword" secureTextEntry={this.state.Pass_View2==Hide_Pass}
                                         style={styles.inputpassword} placeholderTextColor={'gray'}
-                                        placeholder={'Reenter Your Password Here!'}
-                                        defaultValue={this.state.password2}                                
+                                        placeholder={'Reenter Your Password Here!'} returnKeyType='join'                   
                                         onChangeText={(password2) => this.setState({password2})}
-                                        onChange={() => this.reset_field2()}
+                                        onChange={() => this.reset_field2()} ref={(input) => { this.confpass = input;}}
+                                        onSubmitEditing={()=> this.signup_attempt()} keyboardAppearance={dark?'dark':'light'}
                                         />
 
                                     <TouchableOpacity
@@ -239,7 +235,7 @@ export default class SignUp extends Component {
                                         disabled={!this.state.enablePass2}
                                         underlayColor={'#747474'}
                                         style={styles.passwordview}
-                                        onPress={()=> this.setState({showPass2:!this.state.showPass2, Pass_View2:(this.state.Pass_View2==Hide_Pass ? Show_Pass:Hide_Pass)})}>
+                                        onPress={()=> this.setState({Pass_View2:(this.state.Pass_View2==Hide_Pass ? Show_Pass:Hide_Pass)})}>
                                         <Image style={styles.thumb} source={this.state.Pass_View2} />
                                     </TouchableOpacity>
                                 </View>
