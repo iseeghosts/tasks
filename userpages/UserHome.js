@@ -64,7 +64,7 @@ var SavedNote = SavedNoteDark
         AppData[this.props.id].SearchResultFound=0
         var result = ''
         var search = this.state.search.toLowerCase()
-        result = (search?(search.slice(0,8)==('.deleted')?'Recycle Bin':''):'Tasks')
+        result = (search?(search.slice(0,8)==('@deleted')?'Recycle Bin':''):'Tasks')
           var taskheadertext = StyleSheet.flatten([
               styles.taskheadertext, {
                   color:(AppData[this.props.id].theme=='dark'?'white':'black'),
@@ -82,25 +82,25 @@ var SavedNote = SavedNoteDark
         var search = this.state.search.toLowerCase()
         var res2 = false
         var result = ''
-        if (search && !(search.slice(0,8)=='.deleted')) {
-            if (search.slice(0,9)=='.complete' || search.slice(0,11)=='.incomplete' || search.slice(0,10)=='.complete ' || search.slice(0,12)=='.incomplete ') {
+        if (search && !(search.slice(0,8)=='@deleted')) {
+            if (search.slice(0,9)=='@complete' || search.slice(0,11)=='@incomplete' || search.slice(0,10)=='@complete ' || search.slice(0,12)=='@incomplete ') {
                 res2=true
-                if (search.slice(0,10)=='.complete ' || search.slice(0,12)=='.incomplete ') {
-                var search3=search.replace(search.slice(0,10)=='.complete '?'.complete ':'.incomplete ', '')
+                if (search.slice(0,10)=='@complete ' || search.slice(0,12)=='@incomplete ') {
+                var search3=search.replace(search.slice(0,10)=='@complete '?'@complete ':'@incomplete ', '')
                 res2=(search3=='')
                 }
             }            
             result = (res<1?'No':res) + " " + (res2?'':'matching ') + (res==1?'result':'results') + (" found!")
             // console.log(result)
-        } else if (search && (search=='.deleted' || search=='.deleted ')) {
+        } else if (search && (search=='@deleted' || search=='@deleted ')) {
             result = (res==0?'No':res) + " deleted " + (res==1?'task':'tasks') + " in Recycle Bin"
-        } else if (search && search.slice(0,9)==('.deleted ')) {
-            var search2 = search.replace('.deleted ', '')
+        } else if (search && search.slice(0,9)==('@deleted ')) {
+            var search2 = search.replace('@deleted ', '')
                 res2=false
-            if (search2.slice(0,9)=='.complete' || search2.slice(0,11)=='.incomplete' || search2.slice(0,10)=='.complete ' || search2.slice(0,12)=='.incomplete ') {
+            if (search2.slice(0,9)=='@complete' || search2.slice(0,11)=='@incomplete' || search2.slice(0,10)=='@complete ' || search2.slice(0,12)=='@incomplete ') {
                 res2=true
-                if (search2.slice(0,10)=='.complete ' || search2.slice(0,12)=='.incomplete ') {
-                search2=search2.replace(search2.slice(0,10)=='.complete '?'.complete ':'.incomplete ', '')
+                if (search2.slice(0,10)=='@complete ' || search2.slice(0,12)=='@incomplete ') {
+                search2=search2.replace(search2.slice(0,10)=='@complete '?'@complete ':'@incomplete ', '')
                 res2=(search2=='')
                 }
             }
@@ -144,14 +144,14 @@ var SavedNote = SavedNoteDark
                         <View style={[styles.userheader,{flexDirection:this.state.po?'column':'row'}]}>
 
                             <View style={{display:this.state.dis}}>
-                                <WelcomeUser rbo={this.state.rbo} po={this.state.po} op={()=>{this.setState({po:!this.state.po})}} id={this.props.id} openSettings={this.user_settings} recyclebin={() => this.setState({search:(this.state.rbo?'':'.deleted'),rbo:!this.state.rbo})}/>
+                                <WelcomeUser rbo={this.state.rbo} po={this.state.po} op={()=>{this.setState({po:!this.state.po})}} id={this.props.id} openSettings={this.user_settings} recyclebin={() => this.setState({search:(this.state.rbo?'':'@deleted'),rbo:!this.state.rbo})}/>
                             </View>
 
-                            <View style={[styles.searchbox, {flex:this.state.po?0:1, display: ( ass || !this.state.po) ?'flex':"none" ,backgroundColor:theme=='dark'?'#777777':'white'}]}>
+                            <View style={[styles.searchbox, {flex:this.state.po?0:1, display: ( ass || !this.state.po) ?'flex':"none" ,backgroundColor:'gray'}]}>
                                 <Image style={styles.searchicon} source={Search_Icon} />
 
                                 <TextInput style={styles.searchtext} placeholder='Search' placeholderTextColor="#666666" defaultValue={this.state.search}
-                                    onEndEditing={()=>{this.setState({dis:(this.state.search==''?'flex':'none'),rbo:this.state.search.includes('.deleted')});}}
+                                    onEndEditing={()=>{this.setState({dis:(this.state.search==''?'flex':'none'),rbo:this.state.search.includes('@deleted')});}}
                                     onFocus={()=>this.setState({dis:'none'})} clearButtonMode={'while-editing'} onChangeText={(search)=>this.setState({search})}
                                     />
 
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     //Header for Logged In Screen
     userheader: {
         padding:5,
-        paddingBottom:0,
+        paddingVertical:1,
         alignItems:'center',
         justifyContent:'space-evenly',
     },

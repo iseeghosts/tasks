@@ -57,7 +57,8 @@ export default class WelcomeUser extends Component {
         backgroundColor:this.state.backColor,
         shadowOpacity:this.state.shadow,
         width:po?ms.width-10:50,
-        elevation:this.state.elevated
+        elevation:this.state.elevated,
+        marginBottom:po?5:0
       }
     ])
 
@@ -94,7 +95,6 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    marginBottom:5,
     height:50,
     borderRadius:5,
     flexDirection:'row',

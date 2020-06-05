@@ -8,12 +8,12 @@ import React, { Component } from 'react'
 import {View, Text, TextInput, Alert, Image, StyleSheet, TouchableHighlight, TouchableOpacity, Dimensions} from 'react-native'
 
 /*Importing Button Images */
-import Task_Not_Done from './../assets/Task_Incomplete.png';   //icon for incomplete task
-import Task_Done from './../assets/Task_Done_Dark.png';            //icon for completed task
-import Delete_Task_Dark from './../assets/Delete_Task_Dark.png';       //icon for delete task
-import Edit_Task from './../assets/Edit_Task_Dark.png'            //icon for un-edited task
-import Done_Editing from './../assets/Edit_Done.png'     //icon during task being edited
-import Details_Icon from './../assets/Details_Icon_Dark.png'
+import Task_Not_Done from '../assets/Task_Incomplete.png';   //icon for incomplete task
+import Task_Done from '../assets/Task_Done_Dark.png';            //icon for completed task
+import Delete_Task_Dark from '../assets/Delete_Task_Dark.png';       //icon for delete task
+import Edit_Task from '../assets/Edit_Task_Dark.png'            //icon for un-edited task
+import Done_Editing from '../assets/Edit_Done.png'     //icon during task being edited
+import Details_Icon from '../assets/Details_Icon_Dark.png'
 import Restore_Task from '../assets/Restore_Task.png'
 
 
@@ -120,31 +120,31 @@ export default class SavedNote extends Component{
         if (search=='' && !deleted) {
             found=true
         } else if (search && !deleted) {
-            if (!(search.slice(0,8)=='.deleted') && !(search.slice(0,9)==('.complete')|| search.slice(0,11)==('.incomplete')) && (search!='.empty')) {
+            if (!(search.slice(0,8)=='@deleted') && !(search.slice(0,9)==('@complete')|| search.slice(0,11)==('@incomplete')) && (search!='@empty')) {
                 found=(content.includes(search) || date.includes(search))
                 // console.log("content/date")
-            } else if (search.includes('.'+status)) {
-                    found=(search=='.'+status || search=='.'+status+' ')
-                if (search.includes('.'+status+' ')) {
+            } else if (search.includes('@'+status)) {
+                    found=(search=='@'+status || search=='@'+status+' ')
+                if (search.includes('@'+status+' ')) {
                     var search2 = search.replace("."+status+" ", "")
                     found=(content.includes(search2) || date.includes(search2))
                     }                
-            } else if (search=='.empty') {
+            } else if (search=='@empty') {
                 found=(content=='')
             }
         } 
-        else if (search.slice(0,8)==('.deleted') && deleted) {
-            if (search=='.deleted' || search=='.deleted ') {
+        else if (search.slice(0,8)==('@deleted') && deleted) {
+            if (search=='@deleted' || search=='@deleted ') {
                 found=true
             }
-            if (search.slice(0,9)==('.deleted ')) {
+            if (search.slice(0,9)==('@deleted ')) {
                 var search3 = search.replace(".deleted ", "")
                 found=(content.includes(search3) || date.includes(search3))
-                if ((search3.slice(0,9)=='.complete')||(search.slice(0,11)=='.incomplete')) {
-                    if (search3=='.'+status || search3=='.'+status+' ') {
+                if ((search3.slice(0,9)=='@complete')||(search.slice(0,11)=='@incomplete')) {
+                    if (search3=='@'+status || search3=='@'+status+' ') {
                         found=true
                     }
-                    if (search3.includes('.'+status+' ')) {
+                    if (search3.includes('@'+status+' ')) {
                         var search4 = search3.replace("."+status+" ", "")
                         found=(content.includes(search4) || date.includes(search4))
                     }
@@ -169,8 +169,8 @@ export default class SavedNote extends Component{
             styles.seccontainer,{
                 backgroundColor:this.state.backColor,
                 height:ms.height*1/15,
-                borderBottomLeftRadius:found && search.includes('.deleted')?0:5,
-                borderBottomRightRadius:found && search.includes('.deleted')?0:5
+                borderBottomLeftRadius:found && search.includes('@deleted')?0:5,
+                borderBottomRightRadius:found && search.includes('@deleted')?0:5
             }
         ])
 
@@ -212,11 +212,11 @@ export default class SavedNote extends Component{
                     </TouchableOpacity>
 
                     {/* {child} this button allows user to delete a task [delete_task], but not until user confirms in the following confirmation dialog*/}
-                    <TouchableOpacity disabled={this.state.deleteDisable} underlayColor="#000"  style={[styles.deletetask, {backgroundColor:this.state.deletedTask?'#004400':'darkred', borderBottomRightRadius:found && search.includes('.deleted')?0:5}]} onPress={ () => this.delete_task()}>
+                    <TouchableOpacity disabled={this.state.deleteDisable} underlayColor="#000"  style={[styles.deletetask, {backgroundColor:this.state.deletedTask?'#004400':'darkred', borderBottomRightRadius:found && search.includes('@deleted')?0:5}]} onPress={ () => this.delete_task()}>
                         <Image source={this.state.Delete_Task} style={styles.logo} />                            
                     </TouchableOpacity>
                 </View>
-                <View style={[styles.deleteperm, {display:found && search.includes('.deleted')?'flex':'none'}]}>
+                <View style={[styles.deleteperm, {display:found && search.includes('@deleted')?'flex':'none'}]}>
                     <Text style={styles.deletepermtext} onPress={()=> this.request_permanent_deletion()}>Delete permanently</Text>
                 </View>
 
