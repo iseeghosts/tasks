@@ -13,7 +13,8 @@ var ms = Dimensions.get('window')
 /*Importing Button Images */
 import Userid_Check from './assets/Userid_Check.png';
 import Show_Pass from './assets/Show_Pass.png';
-import Hide_Pass from './assets/Hide_Pass_Dark.png';
+import Hide_Pass_Dark from './assets/Hide_Pass_Dark.png';
+import Hide_Pass_Light from './assets/Hide_Pass_Light.png'
 import Verified_Userid from './assets/Verified_UserId.png';
 
 /* Importing functions*/
@@ -41,14 +42,15 @@ export default function UserLogin() {
     let [passBoxVisibility, setPassBoxVisibility] = useState('none');    //enables password box in case userid is registered
     let [registeredUserid, setRegisteredUserid] = useState('none');     //Enables visibility of login messages if needed.
     let [viewPassword, setViewPassword] = useState(Hide_Pass);     // Image URI source for Password View
-    let [goHome, setGoHome] = useState(true); // Goes to Home Screen if true
-    let [userid, setUserId] = useState('id1');
+    let [goHome, setGoHome] = useState(false); // Goes to Home Screen if true
+    let [userid, setUserId] = useState('');
     let [signUp, setSignUp] = useState(false);
     let [dark, setDark] = useState(false);
     // let [UserHome, setUserHome] = useState(UserHomeDark);
 
     var pass = '';  //clears exisiting password if userid is changed
     var x;  //extracts key from JSON
+    let Hide_Pass = dark?Hide_Pass_Dark:Hide_Pass_Light
 
 
     const [useridEntered, setUseridEntered] = useState('');  //Takes Input for userid
@@ -57,6 +59,7 @@ export default function UserLogin() {
 
 /* verifying userid */
     function userid_check() {
+        setUseridCheck(false);
         var z = 0;
         if (useridEntered!='') {
             for (x in Users) {
@@ -65,7 +68,6 @@ export default function UserLogin() {
                         setRegisteredUserid('none');
                         setPassBoxVisibility('flex');
                         setUseridCheckResult(Verified_Userid);
-                        setUseridCheck(false);
                         setCount(0);
                         setB(5);
                         z = 1;
@@ -85,7 +87,6 @@ export default function UserLogin() {
         }
 
         if (count > 2) {
-            setUseridCheck(false);
             setDisableUserid(true);
             var timeout_1 = setTimeout(setUseridCheck, b*1000, true);
             var timeout_2 = setTimeout(setDisableUserid, b*1000, false);
@@ -112,7 +113,7 @@ export default function UserLogin() {
 if (signUp) {
     return (
         <View style={{flex:1}}>
-            <SignUp goHome={setGoHome} setUserId={setUserId} signUp={setSignUp} />
+            <SignUp theme={dark} goHome={setGoHome} setUserId={setUserId} signUp={setSignUp} />
         </View>
     )
 }
@@ -180,13 +181,13 @@ if (goHome) {
                     <View style={[styles.useridbox, {backgroundColor:dark?'#535353':'#AAAAAA'}]}> 
 
             {/*Userid Input (can be disabled)*/}
-                        <TextInput disabled={disableUserid} style={styles.inputuserid}
+                        <TextInput editable={!disableUserid} style={styles.inputuserid}
                             placeholder={'Please enter your user id...'}
                             onChangeText={useridEntered=>setUseridEntered(useridEntered)}
-                            placeholderTextColor="grey"
-                            autoCapitalize='none'
+                            returnKeyType='go' placeholderTextColor='gray'
+                            autoCapitalize='none' keyboardAppearance={dark?'dark':'light'}
                             onChange={reset_fields} textContentType="username"
-                            onEndEditing={userid_check}
+                            onSubmitEditing={userid_check}
                             defaultValue={useridEntered} />
 
             {/*Userid check button [userid_check] (with disable and variable image uri)*/}
@@ -210,8 +211,8 @@ if (goHome) {
                             <TextInput secureTextEntry={viewPassword==Hide_Pass} style={styles.inputpassword}
                                     placeholder={'Input Your Password Here!'} placeholderTextColor='grey'
                                     onChangeText={passwordEntered => setPasswordEntered(passwordEntered)}
-                                    defaultValue={passwordEntered}
-                                    textContentType="password"
+                                    defaultValue={passwordEntered} returnKeyType='go' keyboardAppearance={dark?'dark':'light'}
+                                    textContentType="password" autoCompleteType='off'
                                     />
 
             {/*Button for viewing password [password_visibility] (has a variable image uri)*/}

@@ -153,7 +153,7 @@ export default class SavedNote extends Component{
                 found=true
             }
             if (search.slice(0,9)==('@deleted ')) {
-                var search3 = search.replace(".deleted ", "")
+                var search3 = search.replace("@deleted ", "")
                 found=(content.includes(search3) || date.includes(search3))
                 if ((search3.slice(0,9)=='@complete')||(search.slice(0,11)=='@incomplete')) {
                     if (search3=='@'+status || search3=='@'+status+' ') {
@@ -215,16 +215,16 @@ export default class SavedNote extends Component{
 
                     {/* {child} this container shows the task, editable/uneditable if allowed through edit icon ->next child element */}
                     <View style={inputtask}>
-                        <TextInput onEndEditing={()=> this.edit_task()} editable={this.state.enableEditing && !deleted} defaultValue={this.state.task} placeholder={''} placeholderTextColor={'black'} onChangeText={(task) => this.setState({task})} />
+                        <TextInput onSubmitEditing={()=> {if (this.state.task!='') this.edit_task()}} editable={this.state.enableEditing && !deleted} defaultValue={this.state.task} placeholder={''} placeholderTextColor={'black'} onChangeText={(task) => this.setState({task})} />
                     </View>
 
                     {/* {child} this button allows the task to be modified [edit_task], has a variable image uri Edit_Status */}
-                    <TouchableOpacity disabled={this.state.disableEditButton || this.state.deletedTask} underlayColor="#000"  style={styles.edittextbox} onPress={ () => this.edit_task()}>
+                    <TouchableOpacity disabled={this.state.Task_Status==TaskDone || this.state.deletedTask || content==''} underlayColor="#000"  style={styles.edittextbox} onPress={ () => this.edit_task()}>
                         <Image source={this.state.Edit_Status} style={styles.logo} />                            
                     </TouchableOpacity>
 
                     {/* {child} this button allows user to delete a task [delete_task], but not until user confirms in the following confirmation dialog*/}
-                    <TouchableOpacity disabled={this.state.deleteDisable} underlayColor="#000"  style={[styles.deletetask, {backgroundColor:this.state.deletedTask?'green':'darkred', borderBottomRightRadius:found && search.includes('@deleted')?0:5}]} onPress={ () => this.delete_task()}>
+                    <TouchableOpacity disabled={this.state.Edit_Status==Done_Editing && !(content=='')} underlayColor="#000"  style={[styles.deletetask, {backgroundColor:this.state.deletedTask?'green':'darkred', borderBottomRightRadius:found && search.includes('@deleted')?0:5}]} onPress={ () => this.delete_task()}>
                         <Image source={this.state.Delete_Task} style={styles.logo} />                            
                     </TouchableOpacity>
                 </View>                

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, Text, Image, Alert, Dimensions, TouchableOpacity, ScrollView,StyleSheet, Platform, Button, TextInput, KeyboardAvoidingView} from 'react-native';
+import {View, Text, Image, Alert, Dimensions, TouchableOpacity, ScrollView,StyleSheet, Platform, Button, TextInput, KeyboardAvoidingView, TouchableHighlight} from 'react-native';
 
 import Profile_Pic_Dark from '../assets/Profile_Pic_Dark.png'
 import Profile_Pic_Light from '../assets/Profile_Pic_Light.png'
@@ -193,43 +193,48 @@ export default class UserSettings extends Component {
     
     render() {
 
-        let theme = AppData[this.props.id].theme
+        let dark = AppData[this.props.id].theme=='dark'
+        let theme = this.state.theme.toLowerCase()
 
-        var buttontboxtext = StyleSheet.flatten([styles.buttontboxtext, {color:theme=='dark'?'#BFBFBF':'black'}])
-        var margintext = StyleSheet.flatten([styles.margintext, {color:theme=='dark'?'#BFBFBF':'black'}])
-        var passbox = StyleSheet.flatten([styles.passbox, {backgroundColor:theme=='dark'?'black':'#BFBFBF'}])
-        var textinputpass = StyleSheet.flatten([styles.textinputpass, {color:theme=='dark'?'#BFBFBF':'black'}])
-        var margbox = StyleSheet.flatten([styles.margbox,{backgroundColor:theme=='dark'?'grey':'#BFBFBF'}])
-        let Hide_Pass = (theme=='dark'?Hide_Pass_Dark:Hide_Pass_Light)        
+        var buttontboxtext = StyleSheet.flatten([styles.buttontboxtext, {color:dark?'#BFBFBF':'black'}])
+        var margintext = StyleSheet.flatten([styles.margintext, {color:dark?'#BFBFBF':'black'}])
+        var passbox = StyleSheet.flatten([styles.passbox, {backgroundColor:dark?'black':'#BFBFBF'}])
+        var textinputpass = StyleSheet.flatten([styles.textinputpass, {color:dark?'#BFBFBF':'black'}])
+        var margbox = StyleSheet.flatten([styles.margbox,{backgroundColor:dark?'grey':'#BFBFBF'}])
+        let Hide_Pass = (dark?Hide_Pass_Dark:Hide_Pass_Light)        
 
         return(
-            <View style={[styles.mainbox, {backgroundColor:(theme=='dark'?'black':'white'), paddingTop:theme=='dark'?0:20, marginTop:theme=='dark'?20:0}]}>
+            <View style={[styles.mainbox, {backgroundColor:(dark?'black':'white'), paddingTop:dark?0:20, marginTop:dark?20:0}]}>
                 <KeyboardAvoidingView style={{flex:1}} behavior={Platform.OS == "ios" ? "padding" : ""}>
-                        <TouchableOpacity activeOpacity={1} underlayColor="#BFBFBF" style={[styles.backnavigation, {backgroundColor:(theme=='dark'?'black':'#BFBFBF')}]} onPress={()=> this.props.closeSettings()}>
-                            <Image style={styles.buttonthumbs} source={(theme=='dark'?Back_Arrow_Dark:Back_Arrow_Light)} />
-                        </TouchableOpacity>
+                        <TouchableHighlight activeOpacity={1} underlayColor="steelblue" style={styles.backnavigation} onPress={()=> this.props.closeSettings()}>
+                            <Image style={styles.buttonthumbs} source={(dark?Back_Arrow_Dark:Back_Arrow_Light)} />
+                        </TouchableHighlight>
 
-                    <View style={[styles.header, {borderColor:theme=='dark'?'white':'black'}]}>
+                    <View style={[styles.header, {borderColor:dark?'white':'black'}]}>
                         
-                        <View style={[styles.profilepiccontainer, {backgroundColor:(theme=='dark'?'#555555':'#BFBFBF')}]}>
-                            <Image source={(theme=='dark'?Profile_Pic_Dark:Profile_Pic_Light)} style={styles.picthumb} />
+                        <View style={[styles.profilepiccontainer, {backgroundColor:(dark?'#555555':'#BFBFBF')}]}>
+                            <Image source={(dark?Profile_Pic_Dark:Profile_Pic_Light)} style={styles.picthumb} />
                         </View>
 
-                        <View style={[styles.welcometextbox, {backgroundColor:theme=='dark'?'#666666':'#BFBFBF'}]}>
-                            <Text style={[styles.userwelcometext, {color:theme=='dark'?'#FAEBD7':'black'}]}> Hello {Users[this.props.id].name}!</Text>
+                        <View style={[styles.welcometextbox, {backgroundColor:dark?'#666666':'#BFBFBF'}]}>
+                            <Text style={[styles.userwelcometext, {color:dark?'#FAEBD7':'black'}]}> Hello {Users[this.props.id].name}!</Text>
                         </View>
 
                     </View>
-                    <ScrollView showsVerticalScrollIndicator={false} style={styles.settings}>
-                        <TouchableOpacity activeOpacity={0.5} onPress={()=> this.update_password()} style={[styles.buttontbox2, {backgroundColor:theme=='dark'?'#333333':'#0087BD'}]}>
+                    <ScrollView showsVerticalScrollIndicator={false} style={[styles.settings, {backgroundColor:dark?'black':'white'}]}>
+                        <TouchableOpacity activeOpacity={0.5} onPress={()=> this.update_password()} style={[styles.buttontbox2, {backgroundColor:dark?'#333333':'#0087BD'}]}>
                             <Text style={buttontboxtext}>{this.state.pfv=='flex'?'Cancel Password Update':'Update Password'}</Text>
                         </TouchableOpacity>
 
-                        <View style={[styles.updatepasscontainer,{display:this.state.pfv, backgroundColor:theme=='dark'?'#666666':'skyblue'}]}>
+                        <View style={[styles.updatepasscontainer,{display:this.state.pfv, backgroundColor:dark?'#666666':'skyblue'}]}>
                                 <View style={styles.inputboxes}>
                                     <Text style={styles.passtext}>Enter Old Password!</Text>
                                     <View style={passbox}>
-                                        <TextInput keyboardAppearance={theme} style={textinputpass} secureTextEntry={this.state.Pass_View1==Hide_Pass} placeholder={''} defaultValue={this.state.oldPassword} onChangeText={(oldPassword)=>this.setState({oldPassword})} onChange={() => this.reset_field1()} />
+
+                                        <TextInput keyboardAppearance={theme} style={textinputpass} secureTextEntry={this.state.Pass_View1==Hide_Pass}
+                                            placeholder={''} onChangeText={(oldPassword)=>this.setState({oldPassword})} returnKeyType="next"
+                                            onChange={() => this.reset_field1()} onSubmitEditing={() => { this.newpass.focus(); }}
+                                            blurOnSubmit={false} />
                                         <TouchableOpacity activeOpacity={1} disabled={!this.state.enablePass1} style={styles.passwordview} onPress={()=> this.setState({Pass_View1:(this.state.Pass_View1==Hide_Pass ? Show_Pass:Hide_Pass)})}>
                                             <Image style={styles.buttonthumbs} source={this.state.Pass_View1} />
                                         </TouchableOpacity>
@@ -239,7 +244,10 @@ export default class UserSettings extends Component {
                                 <View style={styles.inputboxes}>
                                     <Text style={styles.passtext}>Enter New Password!</Text>
                                     <View style={passbox}>
-                                        <TextInput keyboardAppearance={theme} style={textinputpass} secureTextEntry={this.state.Pass_View2==Hide_Pass} placeholder={''} defaultValue={this.state.newPassword} onChangeText={(newPassword) => this.setState({newPassword})} onChange={() => this.reset_field2()} />
+                                        <TextInput keyboardAppearance={theme} style={textinputpass} secureTextEntry={this.state.Pass_View2==Hide_Pass}
+                                            placeholder={''} onChangeText={(newPassword) => this.setState({newPassword})} returnKeyType='next'
+                                            onChange={() => this.reset_field2()} ref={(input) => { this.newpass = input;}} blurOnSubmit={false}
+                                            onSubmitEditing={() => { this.confpass.focus(); }}/>
                                         <TouchableOpacity activeOpacity={1} disabled={!this.state.enablePass2} style={styles.passwordview} onPress={()=> this.setState({Pass_View2:(this.state.Pass_View2==Hide_Pass ? Show_Pass:Hide_Pass)})}>
                                             <Image style={styles.buttonthumbs} source={this.state.Pass_View2} />
                                         </TouchableOpacity>
@@ -249,7 +257,10 @@ export default class UserSettings extends Component {
                                 <View style={styles.inputboxes}>
                                     <Text style={styles.passtext}>Confirm your new password!</Text>
                                     <View style={passbox}>
-                                        <TextInput keyboardAppearance={theme} style={textinputpass} secureTextEntry={this.state.Pass_View3==Hide_Pass} placeholder={''} defaultValue={this.state.confirmPassword} onChangeText={(confirmPassword)=>this.setState({confirmPassword})} onChange={() => this.reset_field3()} />
+                                        <TextInput keyboardAppearance={theme} style={textinputpass} secureTextEntry={this.state.Pass_View3==Hide_Pass}
+                                            placeholder={''} onChangeText={(confirmPassword)=>this.setState({confirmPassword})}
+                                            onChange={() => this.reset_field3()}  ref={(input) => { this.confpass = input;}} blurOnSubmit={false} returnKeyType='done'
+                                            onSubmitEditing={()=> this.change_password()} />
                                         <TouchableOpacity activeOpacity={1} disabled={!this.state.enablePass3} style={styles.passwordview} onPress={()=> this.setState({Pass_View3:(this.state.Pass_View3==Hide_Pass ? Show_Pass:Hide_Pass)})}>
                                             <Image style={styles.buttonthumbs} source={this.state.Pass_View3} />
                                         </TouchableOpacity>
@@ -258,7 +269,7 @@ export default class UserSettings extends Component {
 
                                 <Text style={styles.resulttext}>{this.state.resultText}</Text>
                             
-                            <TouchableOpacity marginTop={10} activeOpacity={0.5} onPress={()=> this.change_password()} style={[styles.buttontbox, {margin:0,backgroundColor:theme=='dark'?'#333333':'#0087BD'}]}>
+                            <TouchableOpacity marginTop={10} activeOpacity={0.5} onPress={()=> this.change_password()} style={[styles.buttontbox, {margin:0,backgroundColor:dark?'#333333':'#0087BD'}]}>
                                 <Text style={buttontboxtext}>update</Text>
                             </TouchableOpacity>    
 
@@ -266,9 +277,9 @@ export default class UserSettings extends Component {
                         <View style={styles.boxes}>
                             <View style={margbox}>
                                 <Text style={margintext}>Enter New Margin Value (max. 20) -</Text>
-                                <TextInput keyboardAppearance={theme} onSubmitEditing={()=> this.set_margin()} style={styles.marginvalue} keyboardType={'numeric'} maxLength={20} placeholder={'___'} placeholderTextColor='steelblue' onChangeText={(newMargin) => this.setState({newMargin})} />
+                                <TextInput keyboardAppearance={theme} onSubmitEditing={()=> this.set_margin()} style={styles.marginvalue} keyboardType={'number-pad'} returnKeyType={'done'} maxLength={20} placeholder={'___'} placeholderTextColor='steelblue' onChangeText={(newMargin) => this.setState({newMargin})} />
                             </View>
-                            <TouchableOpacity activeOpacity={0.5} onPress={()=> this.set_margin()} style={[styles.buttontbox, {backgroundColor:theme=='dark'?'#333333':'#0087BD'}]}>
+                            <TouchableOpacity activeOpacity={0.5} onPress={()=> this.set_margin()} style={[styles.buttontbox, {backgroundColor:dark?'#333333':'#0087BD'}]}>
                                 <Text style={buttontboxtext}>update margin</Text>
                             </TouchableOpacity>
                         </View>
@@ -276,16 +287,16 @@ export default class UserSettings extends Component {
                             <View style={margbox}>
                                 <Text style={margintext}>Change Theme</Text>
                             </View>
-                            <TouchableOpacity activeOpacity={0.5} onPress={()=> {this.change_theme()}} style={[styles.buttontbox, {backgroundColor:theme=='dark'?'#BCBCBC':'black'}]}>
-                                <Text style={[styles.buttontboxtext, {color:theme=='dark'?'black':'white'}]}>{String(this.state.theme).toUpperCase()}</Text>
+                            <TouchableOpacity activeOpacity={0.5} onPress={()=> {this.change_theme()}} style={[styles.buttontbox, {backgroundColor:dark?'#BCBCBC':'black'}]}>
+                                <Text style={[styles.buttontboxtext, {color:dark?'black':'white'}]}>{String(this.state.theme).toUpperCase()}</Text>
                             </TouchableOpacity>
                         </View>                        
                         <TouchableOpacity activeOpacity={0.8}
                         onPress={()=> {
                                 AppData[this.props.id].alwaysshowsearch=(!this.state.ass);
-                                this.setState({ass:!this.state.ass});
-                                console.log(AppData[this.props.id])}}
-                                style={[styles.buttontbox2, {backgroundColor:theme=='dark'?'steelblue':'#888'}]}>
+                                this.setState({ass:!this.state.ass});}}
+                                // console.log(AppData[this.props.id])}}
+                                style={[styles.buttontbox2, {backgroundColor:dark?'steelblue':'#BCBCBC'}]}>
                             <Text style={buttontboxtext}>{!this.state.ass?'Enable':'Disable'} Always Show Search Box</Text>
                         </TouchableOpacity>
                     </ScrollView>
@@ -296,9 +307,10 @@ export default class UserSettings extends Component {
                         <Text style={styles.buttontboxtext}>{this.state.displaydelete=='flex'?'Cancel':'Request'} Account Deletion</Text>
                     </TouchableOpacity>
                     <View style={[styles.updatepasscontainer,{display:this.state.displaydelete}]}>
-                        <Text style={[styles.deletiontext, {color:theme=='dark'?'#BFBFBF':'black'}]}>Please verify your password!</Text>
+                        <Text style={[styles.deletiontext, {color:dark?'#BFBFBF':'black'}]}>Please verify your password!</Text>
                         <View style={passbox}>
-                            <TextInput keyboardAppearance={theme} style={textinputpass} secureTextEntry={this.state.Pass_View==Hide_Pass} placeholder={''} defaultValue={this.state.verifypassword} onChangeText={(verifypassword) => this.setState({verifypassword})} />
+                            <TextInput keyboardAppearance={theme} style={textinputpass} secureTextEntry={this.state.Pass_View==Hide_Pass} placeholder={''}
+                            onChangeText={(verifypassword) => this.setState({verifypassword})} returnKeyType='done' onSubmitEditing={()=> this.delete_account()} />
                             <TouchableOpacity activeOpacity={1} style={styles.passwordview} onPress={()=> this.setState({Pass_View:(this.state.Pass_View==Hide_Pass ? Show_Pass:Hide_Pass)})}>
                                 <Image style={styles.buttonthumbs} source={this.state.Pass_View} />
                             </TouchableOpacity>
@@ -328,8 +340,8 @@ const styles = StyleSheet.create({
         width:32,
         marginTop:10,
         marginLeft:10,
-        shadowRadius:4,
-        shadowOpacity:0.8,
+        shadowRadius:2,
+        shadowOpacity:0.4,
         elevation:5,
         shadowOffset:{height:0.1}
         
@@ -356,7 +368,7 @@ const styles = StyleSheet.create({
         borderRadius:30,
         alignItems:'center',
         justifyContent:'center',
-        shadowRadius:4,
+        shadowRadius:2,
         shadowOpacity:0.8,
         elevation:10,
         shadowOffset:{height:0.1}
@@ -373,8 +385,8 @@ const styles = StyleSheet.create({
         marginTop:10,
         padding:4,
         borderRadius:3,
-        shadowRadius:4,
-        shadowOpacity:0.8,
+        shadowRadius:40,
+        shadowOpacity:1,
         elevation:5,
         shadowOffset:{height:0.1}
         
@@ -396,11 +408,11 @@ const styles = StyleSheet.create({
         padding:8,
         borderRadius:5,
         margin:5,
-        marginTop:0,
-        shadowRadius:4,
-        shadowOpacity:0.8,
+        marginTop:5,
+        shadowRadius:10,
+        shadowOpacity:0.6,
         elevation:5,
-        shadowOffset:{height:0.1}
+        shadowOffset:{height:1}
     },
     buttontboxtext:{
         fontSize:15,
@@ -413,7 +425,7 @@ const styles = StyleSheet.create({
         margin:10,
         marginTop:0,
         borderRadius:5,
-        shadowRadius:4,
+        shadowRadius:2,
         shadowOpacity:0.8,
         elevation:5,
         shadowOffset:{height:0.1}      
@@ -437,7 +449,7 @@ const styles = StyleSheet.create({
         paddingLeft:10,
         borderRadius:3,
         flexDirection:'row',
-        shadowRadius:4,
+        shadowRadius:2,
         shadowOpacity:0.8,
         elevation:3,
         shadowOffset:{height:0.1}
@@ -479,7 +491,7 @@ const styles = StyleSheet.create({
         borderRadius:5,
         marginTop:10,
         elevation:5,
-        shadowRadius:4,
+        shadowRadius:2,
         shadowOpacity:0.8,
         shadowOffset:{height:0.1}
     },
@@ -487,11 +499,13 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         borderTopRightRadius:5,
         borderTopLeftRadius:5,
+        justifyContent:'center',
     },
     margintext:
     {
         padding:10,
         fontSize:18,
+        textAlign:'center'
     },
     marginvalue:
     {

@@ -109,8 +109,8 @@ const styles = StyleSheet.create({
     borderRadius:20,
     justifyContent:'center',
     alignItems:'center',
-    shadowRadius:1,
-    shadowOpacity:0.4,
+    shadowRadius:4,
+    shadowOpacity:0.7,
     elevation:5,
     shadowOffset:{height:0.1},
     
