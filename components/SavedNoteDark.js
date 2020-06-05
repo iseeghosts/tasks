@@ -120,13 +120,13 @@ export default class SavedNote extends Component{
         if (search=='' && !deleted) {
             found=true
         } else if (search && !deleted) {
-            if (!(search.slice(0,8)=='@deleted') && !(search.slice(0,9)==('@complete')|| search.slice(0,11)==('@incomplete')) && (search!='@empty')) {
+            if (!(search.slice(0,8)=='@deleted') && !(search.slice(0,9)==('@complete') || search.slice(0,11)==('@incomplete')) && (search!='@empty')) {
                 found=(content.includes(search) || date.includes(search))
                 // console.log("content/date")
             } else if (search.includes('@'+status)) {
                     found=(search=='@'+status || search=='@'+status+' ')
                 if (search.includes('@'+status+' ')) {
-                    var search2 = search.replace("."+status+" ", "")
+                    var search2 = search.replace("@"+status+" ", "")
                     found=(content.includes(search2) || date.includes(search2))
                     }                
             } else if (search=='@empty') {
@@ -145,7 +145,7 @@ export default class SavedNote extends Component{
                         found=true
                     }
                     if (search3.includes('@'+status+' ')) {
-                        var search4 = search3.replace("."+status+" ", "")
+                        var search4 = search3.replace("@"+status+" ", "")
                         found=(content.includes(search4) || date.includes(search4))
                     }
                 }

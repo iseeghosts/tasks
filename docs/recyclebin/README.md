@@ -1,7 +1,7 @@
 # OverView
 All your deleted notes are stored here (non-empty only), and can be permanently deleted from here
 
-![Recycle Bin Demo](../../files/recyclebin/demolight.gif)
+![Recycle Bin Demo](../../files/recyclebin/demo-light.gif)
 
 ## How to open recycle bin
 You can open recycle bin either by clicking on the recycle bin button on the expanded profile menu or typing @deleted in the search box

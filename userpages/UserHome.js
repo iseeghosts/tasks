@@ -153,7 +153,7 @@ var SavedNote = SavedNoteDark
                                 <TextInput style={styles.searchtext} placeholder='Search' placeholderTextColor="#666666" defaultValue={this.state.search}
                                     onEndEditing={()=>{this.setState({dis:(this.state.search==''?'flex':'none'),rbo:this.state.search.includes('@deleted')});}}
                                     onFocus={()=>this.setState({dis:'none'})} clearButtonMode={'while-editing'} onChangeText={(search)=>this.setState({search})}
-                                    keyboardAppearance={theme} />
+                                    keyboardAppearance={theme} returnKeyType='search' />
 
                             </View>
                         </View>

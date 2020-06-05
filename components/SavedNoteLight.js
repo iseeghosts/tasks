@@ -141,7 +141,7 @@ export default class SavedNote extends Component{
             } else if (search.includes('@'+status)) {
                     found=(search=='@'+status || search=='@'+status+' ')
                 if (search.includes('@'+status+' ')) {
-                    var search2 = search.replace("."+status+" ", "")
+                    var search2 = search.replace("@"+status+" ", "")
                     found=(content.includes(search2) || date.includes(search2))
                     }                
             } else if (search=='@empty') {
@@ -160,7 +160,7 @@ export default class SavedNote extends Component{
                         found=true
                     }
                     if (search3.includes('@'+status+' ')) {
-                        var search4 = search3.replace("."+status+" ", "")
+                        var search4 = search3.replace("@"+status+" ", "")
                         found=(content.includes(search4) || date.includes(search4))
                     }
                 }

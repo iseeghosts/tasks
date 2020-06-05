@@ -25,6 +25,9 @@
       "supportsTablet": true,
       "icon":"./assets/splash.png",
       "requireFullScreen":true
+    },
+    "androidStatusBar": {
+      "hidden":true
     }
   }
 }

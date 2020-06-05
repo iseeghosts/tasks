@@ -211,7 +211,7 @@ if (goHome) {
                             <TextInput secureTextEntry={viewPassword==Hide_Pass} style={styles.inputpassword}
                                     placeholder={'Input Your Password Here!'} placeholderTextColor='grey'
                                     onChangeText={passwordEntered => setPasswordEntered(passwordEntered)}
-                                    defaultValue={passwordEntered} returnKeyType='go' keyboardAppearance={dark?'dark':'light'}
+                                    defaultValue={passwordEntered} returnKeyType='done' keyboardAppearance={dark?'dark':'light'}
                                     textContentType="password" autoCompleteType='off'
                                     />
 
