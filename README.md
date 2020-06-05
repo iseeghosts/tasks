@@ -16,6 +16,7 @@ Watch a login or signup with no distractions in action
 
 Cleaner home screen, you will find only what you need
 <br>
+<br>
 <img align="center" src="./files/homescreen/light-default.png">
 <br>
 <br>
