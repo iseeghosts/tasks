@@ -194,7 +194,7 @@ if (goHome) {
                     </View>    
 
     {/* A - 1 - A - 2 - userid Main Box*/}
-                    <View style={[styles.useridbox, {backgroundColor:dark?'#333333':'#ffffdd'}]}> 
+                    <View style={[styles.useridbox, {backgroundColor:dark?'#666666':'#ffffdd'}]}> 
 
     {/* A - 1 - A - 2 - A - userid Input (can be disabled)*/}
                         <TextInput editable={!disableUserid} style={[styles.inputuserid, {color:dark?'#ffffff':'#000000'}]}
@@ -300,8 +300,8 @@ const styles = StyleSheet.create({
 
 //login box [contains login elements]
     mainloginbox: {
-        width:ms.width*8/9,
         minHeight:230,
+        marginHorizontal:10,
         justifyContent:'space-between',
         alignItems:'center',
         borderRadius:4,
@@ -333,13 +333,13 @@ const styles = StyleSheet.create({
 
 //userid input container main
     useridbox:{
-        marginVertical:10,
+        margin:10,
         borderRadius:4,
         flexDirection:'row',
-        width:ms.width*7.5/9,
         height:40,
         alignContent:'center',
         justifyContent:'center',
+        paddingLeft:10,
         shadowRadius:7,
         shadowOpacity:0.7,
         elevation:5,
@@ -348,10 +348,7 @@ const styles = StyleSheet.create({
 
 //input for userid
     inputuserid:{
-        borderRadius:4,
-        width:ms.width*7.5/9 - 45,
-        paddingHorizontal:10,
-        justifyContent:'flex-start',
+        flex:1,
     },
 
 //button for userid verification
@@ -379,10 +376,9 @@ const styles = StyleSheet.create({
         alignContent:'center',
         justifyContent:'center',
         elevation:5,        
-        marginVertical:10,
+        margin:10,
         flexDirection:'row',
         borderRadius:4,
-        width:ms.width*7.5/9,
         paddingLeft:10,
         shadowRadius:7,
         shadowOpacity:0.7,
@@ -391,10 +387,7 @@ const styles = StyleSheet.create({
 
 //input for password
     inputpassword:{
-        justifyContent:'flex-start',
-        width:ms.width*7.5/9 - 55,
-        borderTopLeftRadius:4,
-        borderBottomLeftRadius:4,       
+        flex:1,
     },
 
 //button for password view
@@ -402,8 +395,6 @@ const styles = StyleSheet.create({
         justifyContent:"center",
         alignItems:'center',
         width:45,
-        borderTopRightRadius:4,
-        borderBottomRightRadius:4,
     },
 
 //button for credential submission
