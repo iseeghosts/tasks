@@ -1,175 +1,229 @@
+//App.js --[Path A]-->SignUp.js
+//                     --^--
+//
+/* This is second screen - SignUp Screen */
+
+/* importing required modules */
 import React, { Component } from 'react';
 import {View, Image, KeyboardAvoidingView, Platform, StyleSheet, YellowBox, TextInput, Text, Dimensions, TouchableHighlight, ScrollView, TouchableOpacity, Alert} from 'react-native';
 YellowBox.ignoreWarnings(['RootErrorBoundary']);
 
-//Importing list of users
+//importing list of users
 import Users from './users.json'
+
+//importing list of tasks
 import Tasks from './tasks.json'
+
+//importing list of all users
 import UO from './originaluserlist.json'
+
+//importing user settings
 import AppData from './appdata.json'
 
 
-//Importing Images
-import User_Check_Light from './assets/User_Check_Light.png' //check userid image url
-import User_Check_Dark from './assets/User_Check_Dark.png'
-import Verified_User_Dark from './assets/Verified_User_Dark.png' //verified userid image url
-import Verified_User_Light from './assets/Verified_User_Light.png'
-import Show_Pass from './assets/Show_Pass.png';
-import Hide_Pass_Light from './assets/Hide_Pass_Light.png'
-import Hide_Pass_Dark from './assets/Hide_Pass_Dark.png';
-import Back_Arrow_Dark from './assets/Back_Arrow_Dark.png'
-import Back_Arrow_Light from './assets/Back_Arrow_Light.png'
+//importing icons
+import User_Check_Light from './assets/User_Check_Light.png'        //check userid image url - light
+import User_Check_Dark from './assets/User_Check_Dark.png'          // |->dark
+import Verified_User_Dark from './assets/Verified_User_Dark.png'    //verified userid image url - dark
+import Verified_User_Light from './assets/Verified_User_Light.png'  // |->light
+import Show_Pass from './assets/Show_Pass.png';                     //show password
+import Hide_Pass_Light from './assets/Hide_Pass_Light.png'          //hide password - light
+import Hide_Pass_Dark from './assets/Hide_Pass_Dark.png';           // |->dark
+import Back_Arrow_Dark from './assets/Back_Arrow_Dark.png'          //go back to login - dark
+import Back_Arrow_Light from './assets/Back_Arrow_Light.png'        // |->dark
+
+/*list of messages*/
 var messages = ["Sorry, this user id is not available","Kindly fill all the fields", "this userid is available", "Passwords do not match!"];
+
+//screen Dimensions
 var ms = Dimensions.get('window')
+
+//usercheck availibility
 var x;
+
+//variable for theme specific icons
 var Hide_Pass
 var User_Check
-// var Show_Pass
 var Verified_User
 
+/* start of default export function */
 export default class SignUp extends Component {
+
+    //initial states
     constructor(props) {
         var Hide_Pass = props.theme?Hide_Pass_Dark:Hide_Pass_Light
+        var User_Check = props.theme?User_Check_Dark:User_Check_Light
+        var Verified_User = props.theme?Verified_User_Dark:Verified_User_Light
+        var presignup = props.id!='' && UO[props.id]!=null
         super()
         this.state = {
-            name:'',
-            userid:'',
-            password:'',
-            password2:'',
+            name:'',          //user's name
+            userid:props.id,  //user's id
+            password:'',      //user's password
+            password2:'',     //confirm password
+            displaySignUpBox:presignup?'flex':'none',   //display all field after validating userid
+            enablePass1:true,       //true to disable show password when editing another field 
+            enablePass2:true,       //true to disable show password when editing another field
+            result:'',              //userid availability messages
+            result2:'',             //signup attempt messages
+            disableButton:!presignup,     //check userid availability 
+            dark:props.theme,       //set theme
+            Pass_View1:Hide_Pass,   //pass view icon
+            Pass_View2:Hide_Pass,   //pass view icon  
+            User_Status:presignup?Verified_User:User_Check,   //user check icon
+        }
+    }
+
+    // change Theme of Current Page
+    change_theme = () => {
+        var dark = this.state.dark
+        Hide_Pass = !dark?Hide_Pass_Dark:Hide_Pass_Light
+        User_Check = !dark?User_Check_Dark:User_Check_Light
+        Verified_User =!dark?Verified_User_Dark:Verified_User_Light
+        var Pass_View1=this.state.Pass_View1;
+        var Pass_View2 = this.state.Pass_View2;
+        var User_Status = this.state.User_Status
+        this.setState({
+            dark:!this.state.dark,
+            Pass_View1:!(Pass_View1==Show_Pass)?Hide_Pass:Show_Pass,
+            Pass_View2:!(Pass_View2==Show_Pass)?Hide_Pass:Show_Pass,
+            User_Status:(User_Status==User_Check_Dark || User_Status==User_Check_Light)?User_Check:Verified_User
+        })
+    }
+
+    //reset fields if userid changes
+    reset_fields = () => {
+        User_Check = this.state.dark?User_Check_Dark:User_Check_Light
+        this.setState({
             displaySignUpBox:'none',
-            enablePass1:true,
-            enablePass2:true,
+            User_Status:User_Check,
             result:'',
             result2:'',
-            User_Status:props.theme?User_Check_Dark:User_Check_Light,
+            password:'',
+            password2:'',
+            disableButton:false
+        })
+    }
+
+    //check userid availability
+    check_availability = () => {
+        Verified_User =this.state.dark?Verified_User_Dark:Verified_User_Light
+        var len1=0
+        var len2=0
+        for (x in UO) {
+            if ([x]!=this.state.userid) {
+                len1=len1+1
+            }
+            len2=len2+1
+        }
+        if ((len1!=len2) && (len1!=0)) {
+            this.setState({result:messages[0]})
+        } else if ((len1==len2) && (len1!=0)) {
+            this.setState({displaySignUpBox:'flex',result:messages[2], User_Status:Verified_User})
+        }
+        this.setState({disableButton:true})
+    }
+
+    //reset results
+    reset_results = () => {
+        this.setState({
+            result:'',
+            result2:''
+        })
+    }
+
+    //disable passwords on name change
+    disable_password = () => {
+        Hide_Pass=this.state.dark?Hide_Pass_Dark:Hide_Pass_Light
+        this.reset_results
+        this.setState({
             Pass_View1:Hide_Pass,
             Pass_View2:Hide_Pass,
-            disableButton:true,
-            dark:props.theme,
-        }
-        }
-        change_theme = () => {
-            var dark = this.state.dark
-            Hide_Pass = !dark?Hide_Pass_Dark:Hide_Pass_Light
-            User_Check = !dark?User_Check_Dark:User_Check_Light
-            Verified_User =!dark?Verified_User_Dark:Verified_User_Light
-            var Pass_View1=this.state.Pass_View1;
-            var Pass_View2 = this.state.Pass_View2;
-            var User_Status = this.state.User_Status
-            this.setState({
-                dark:!this.state.dark,
-                Pass_View1:!(Pass_View1==Show_Pass)?Hide_Pass:Show_Pass,
-                Pass_View2:!(Pass_View2==Show_Pass)?Hide_Pass:Show_Pass,
-                User_Status:(User_Status==User_Check_Dark || User_Status==User_Check_Light)?User_Check:Verified_User
-            })
-        }
-        reset_fields = () => {
-            User_Check = this.state.dark?User_Check_Dark:User_Check_Light
-            this.setState({
-                displaySignUpBox:'none',
-                User_Status:User_Check,
-                result:'',
-                result2:'',
-                disableButton:false
-            })
-        }
-        check_availability = () => {
-            Verified_User =this.state.dark?Verified_User_Dark:Verified_User_Light
-            var len1=0
-            var len2=0
-            for (x in UO) {
-                if ([x]!=this.state.userid) {
-                    len1=len1+1
-                }
-                len2=len2+1
-            }
-            // alert(len1+ ' ' + len2)
-            if ((len1!=len2) && (len1!=0)) {
-                this.setState({result:messages[0]})
-            } else if ((len1==len2) && (len1!=0)) {
-                this.setState({displaySignUpBox:'flex',result:messages[2], User_Status:Verified_User})
-            }
-            this.setState({disableButton:true})
-        }
-        reset_results = () => {
-            var dark = this.state.dark
-            Hide_Pass = dark?Hide_Pass_Dark:Hide_Pass_Light
-            this.setState({
-                result:'',
-                result2:''
-            })
-        }
+            enablePass1:this.state.password=='',
+            enablePass2:this.state.password2=='',
+        })
+    }
 
-        reset_field1 = () => {
-            var dark = this.state.dark
-            var Hide_Pass = dark?Hide_Pass_Dark:Hide_Pass_Light
+    //disable password view in field 2 
+    dis_pass2 = () => {
+        var dark = this.state.dark
+        var Hide_Pass = dark?Hide_Pass_Dark:Hide_Pass_Light
+        this.setState({
+            enablePass2:(String(this.state.password2).length==''),
+            Pass_View2:Hide_Pass,
+            result:'',
+            result2:''
+        })
+        if (String(this.state.password)=='') {
             this.setState({
-                enablePass2:(String(this.state.password2).length==''),
-                Pass_View2:Hide_Pass,
-                result:'',
-                result2:''
+                enablePass1:true,
             })
-            if (String(this.state.password)=='') {
-                this.setState({
-                    enablePass1:true,
-                })
-                // alert('Hola!')
-            }
+            // alert('Hola!')
         }
-        reset_field2 = () => {
-            var dark = this.state.dark
-            var Hide_Pass = dark?Hide_Pass_Dark:Hide_Pass_Light
-            this.setState({
-                enablePass1:(String(this.state.password).length==''),
-                Pass_View1:Hide_Pass,
-                result:'',
-                result2:''
-            })
-            if (String(this.state.password2)=='') {
-                this.setState({
-                    enablePass2:true,
-                })
-            }
-            
-        }
+    }
 
-        add_first_task = () => {
-            var taskid = Math.random().toString(13).replace('0.', '')  //Each time a task is run, taskid increments by 1
-            var date = new Date().getTime()
-            date = String(date)
-            var date2 = new Date().toLocaleString();
+    //disable password view in field 1
+    dis_pass1 = () => {
+        var dark = this.state.dark
+        var Hide_Pass = dark?Hide_Pass_Dark:Hide_Pass_Light
+        this.setState({
+            enablePass1:(String(this.state.password).length==''),
+            Pass_View1:Hide_Pass,
+            result:'',
+            result2:''
+        })
+        if (String(this.state.password2)=='') {
+            this.setState({
+                enablePass2:true,
+            })
+        }
+        
+    }
+
+    //add first task should the user chooses to go home after successful signup
+    add_first_task = () => {
+        var taskid = Math.random().toString(13).replace('0.', '')  //Each time a task is run, taskid increments by 1
+        var date = new Date().getTime()
+        date = String(date)
+        var date2 = new Date().toLocaleString();
+
+        Tasks[this.state.userid].push({"key":taskid, "content":"This is a sample task", "date_created":date, "last_modified":date2, "status":"Incomplete", "deleted":false});   // Pushing new task to list of Tasks
+        console.log(taskid)
+    }
     
-            Tasks[this.state.userid].push({"key":taskid, "content":"This is a sample task", "date_created":date, "last_modified":date2, "status":"Incomplete", "deleted":false});   // Pushing new task to list of Tasks
-            console.log(taskid)
-        }
-    
-
-        signup_attempt = () => {
-            var dark = this.state.dark
-            var Hide_Pass = dark?Hide_Pass_Dark:Hide_Pass_Light
-            if ((this.state.password) && (this.state.password2) && (this.state.name)) {
-                if (this.state.password==this.state.password2) {
-                    Users[this.state.userid] = {"name":this.state.name, "pwd":this.state.password}
-                    UO[this.state.userid] = {"name":this.state.name, "pwd":this.state.password}
-                    AppData[this.state.userid] = {"taskMargin":8,"alwaysshowsearch":true,"SearchResultFound":true,"theme":this.state.dark?'dark':'light'}
-                    Tasks[this.state.userid] = [];
-                    this.add_first_task()
-                    Alert.alert("Account Creation",'Hi '+ Users[this.state.userid].name + '!\nYour account was created successfully!'
-                    ,[
-                        {text:'Ok!', onPress: () => this.setState({ name:'', userid:'', password:'', password2:'', displaySignUpBox:'none', enablePass1:true, enablePass2:true, showPass1:true, showPass2:true, result:'', result2:'', User_Status:User_Check_Light, Pass_View1:Hide_Pass, Pass_View2:Hide_Pass})},
-                        {text:'Go to home', onPress: () => {this.props.setUserId(this.state.userid); this.props.signUp(); this.props.goHome(true);alert('Click on the profile icon for more options!')}}
-                    ], {cancelable:true} )
-                } else {
-                this.setState({result2:messages[3]})
-                }
+    // signup attempt
+    signup_attempt = () => {
+        var dark = this.state.dark
+        var Hide_Pass = dark?Hide_Pass_Dark:Hide_Pass_Light
+        if ((this.state.password) && (this.state.password2) && (this.state.name)) {
+            if (this.state.password==this.state.password2) {
+                Users[this.state.userid] = {"name":this.state.name, "pwd":this.state.password}
+                UO[this.state.userid] = {"name":this.state.name, "pwd":this.state.password}
+                AppData[this.state.userid] = {"taskMargin":8,"alwaysshowsearch":true,"SearchResultFound":true,"theme":this.state.dark?'dark':'light'}
+                Tasks[this.state.userid] = [];
+                this.add_first_task()
+                Alert.alert("Account Creation",'Hi '+ Users[this.state.userid].name + '!\nYour account was created successfully!'
+                ,[
+                    {text:'Ok!', onPress: () => this.setState({ name:'', userid:'', password:'', password2:'', displaySignUpBox:'none', enablePass1:true, enablePass2:true, showPass1:true, showPass2:true, result:'', result2:'', User_Status:User_Check_Light, Pass_View1:Hide_Pass, Pass_View2:Hide_Pass})},
+                    {text:'Go to home', onPress: () => {this.props.setUserId(this.state.userid); this.props.signUp(); this.props.goHome(true);alert('Click on the profile icon for more options!')}}
+                ], {cancelable:true} )
             } else {
-                this.setState({result2:messages[1]})
+            this.setState({result2:messages[3]})
             }
+        } else {
+            this.setState({result2:messages[1]})
         }
+    }
+
+    //render function
     render() {
+
+        // list of variables
         var dark = this.state.dark
         var Back_Arrow= dark?Back_Arrow_Dark:Back_Arrow_Light
         Hide_Pass = (dark?Hide_Pass_Dark:Hide_Pass_Light)
+
+        /*stylesheet mods */
         var signupbox = StyleSheet.flatten([
             styles.userdetails,{
                 display:this.state.displaySignUpBox
@@ -187,110 +241,163 @@ export default class SignUp extends Component {
             }
         ])
         var passwordbox = StyleSheet.flatten([
-            styles.passwordbox, {backgroundColor:!dark?'lightgrey':'black'}
+            styles.useridbox, {backgroundColor:dark?'#000000aa':'#ffffddaa'}
         ])
         var inputpassword = StyleSheet.flatten([
-            styles.inputpassword, {
-                color:dark?'white':'black'
+            styles.inputuserid, {
+                color:dark?'#ffffff':'#000000'
             }
         ])
+        var passwordverifybutton = StyleSheet.flatten([
+            styles.useridverifybutton, {
+                marginHorizontal:5
+            }
+        ])
+        /* end of stylesheet mods*/
 
         return(
 
-            //Main Container 
-            <KeyboardAvoidingView style={[styles.mainbox, {backgroundColor:dark?'gray':'#008080',  paddingTop:dark?0:20, marginTop:dark?20:0}]}  behavior={Platform.OS == "ios" ? "padding" : ""}>
+        //  A - main container 
+            <KeyboardAvoidingView style={[styles.mainbox, {backgroundColor:dark?'#808080':'#008080',  paddingTop:dark?0:20, marginTop:dark?20:0}]}  behavior={Platform.OS == "ios" ? "padding" : ""}>
 
-                {/* Header for Sign Up */}
-                <View style={[styles.header, {backgroundColor:dark?'#444444':'#eeeeee'}]}>
+        {/* A - 1 - header for Sign Up */}
+                <View style={[styles.header, {backgroundColor:dark?'#444444cc':'#eeeeeecc'}]}>
+
+        {/* A - 1 - A - go back to signin */}
                     <TouchableHighlight activeOpacity={1} underlayColor="#0070bb" style={styles.backnavigation} onPress={()=> {this.props.signUp();}}>
+
+        {/* A - 1 - A - 1 - icon for go back */}
                         <Image style={styles.thumb} source={Back_Arrow} />
                     </TouchableHighlight>
-                    <Text style={[styles.headertext, {color:dark?'white':'black'}]}>Create Your Account!</Text>
+
+        {/* A - 1 - B - header for signup */}
+                    <Text style={[styles.headertext, {color:dark?'#ffffff':'#000000'}]}>Create Your Account!</Text>
                 </View>
 
-                <ScrollView style={{flex:1}} showsVerticalScrollIndicator={false}>
-                    {/* Body part containing sign up elements */}
-                    <View style={styles.bodybox}>
-                        <View style={[styles.firstcontainer, {backgroundColor:dark?'darkgrey':'skyblue'}]}>
-                            <Text style={styles.useridtext}>enter a userid to signup with...</Text>
-                            <View style={[styles.useridbox, {backgroundColor:dark?'lightgrey':'white'}]}>
-                                <TextInput textContentType="username" onEndEditing={()=>{if (!this.state.disableButton) this.check_availability()}}
-                                    style={styles.inputuserid} autoCapitalize='none' placeholder={'userid'} returnKeyType='go'
-                                    onChangeText={(userid)=>this.setState({userid})} enablesReturnKeyAutomatically={true}
-                                    onChange={() => this.reset_fields()} keyboardAppearance={dark?'dark':'light'} />
+        {/* A - 2 - scollable signup box */}
+                <ScrollView justifyContent={'flex-start'} style={styles.bodybox} showsVerticalScrollIndicator={false}>
 
-                                <View style={styles.useridverify}>
-                                    <TouchableHighlight  style={styles.useridverifybutton} onPress={()=>this.check_availability()}  activeOpacity={1} underlayColor='steelblue' disabled={true} >
-                                        <Image source={this.state.User_Status} style={styles.thumb}/>                           
-                                    </TouchableHighlight>
-                                </View>
-                            </View>
-                            <Text style={resulttext}>{this.state.result}</Text>
-                            <View style={signupbox}>
-                                <Text style={styles.useridtext}>enter your name...</Text>
-                                <View style={[styles.username, , {backgroundColor:dark?'lightgrey':'white'}]}>
-                                    <TextInput textContentType="name" style={styles.inputname}
-                                        onSubmitEditing={() => { this.newpass.focus(); }} placeholder={'Enter Name!'}
-                                        onChangeText={(name)=>this.setState({name})} keyboardAppearance={dark?'dark':'light'}
-                                        onChange={()=>this.setState({result:'', result2:''})} returnKeyType="next" blurOnSubmit={false}
-                                        />
-                                </View>
+        {/* A - 2 - A - body part containing sign up elements */}
+                    <View style={[styles.firstcontainer, {backgroundColor:dark?'darkgrey':'skyblue'}]}>
 
-                                <Text style={styles.useridtext}>enter a password...</Text>
+        {/* A - 2 - A - 1 - text as userid box header */}
+                        <Text style={styles.useridtext}>enter a userid to signup with...</Text>
 
-                                <View style={passwordbox}>
-                                    {/* Field 1 */}
-                                    <TextInput textContentType="newPassword" secureTextEntry={this.state.Pass_View1==Hide_Pass}
-                                        style={inputpassword} placeholderTextColor={'gray'}
-                                        placeholder={'Enter Your Password Here!'} keyboardAppearance={dark?'dark':'light'}
-                                        onChangeText={(password) => this.setState({password})}
-                                        onChange={() => this.reset_field1()} ref={(input) => { this.newpass = input;}}
-                                        blurOnSubmit={false} returnKeyType="next" onSubmitEditing={() => { this.confpass.focus(); }}
-                                        />
+        {/* A - 2 - A - 2 - userid box */}
+                        <View style={[styles.useridbox, {backgroundColor:dark?'#808080':'#ffffff'}]}>
 
-                                    <TouchableOpacity
-                                        activeOpacity={1}
-                                        disabled={(!this.state.enablePass1)}
-                                        underlayColor={'#747474'}
-                                        style={styles.passwordview} 
-                                        onPress={()=> this.setState({Pass_View1:(this.state.Pass_View1==Hide_Pass ? Show_Pass:Hide_Pass)})}>
-                                        <Image style={styles.thumb} source={this.state.Pass_View1} />
-                                    </TouchableOpacity>
-                                </View>
-                                
-                                <Text style={styles.useridtext}>confirm your password...</Text>
+        {/* A - 2 - A - 2 - A  - userid input*/}
+                            <TextInput textContentType="username" defaultValue={this.state.userid}
+                                onEndEditing={()=>{if (!this.state.disableButton) this.check_availability()}}
+                                style={inputpassword} autoCapitalize='none' placeholder={'userid'} returnKeyType='go'
+                                onChangeText={(userid)=>this.setState({userid})} enablesReturnKeyAutomatically={true}
+                                onChange={() => this.reset_fields()} keyboardAppearance={dark?'dark':'light'} />
 
-                                <View style={passwordbox}>
-                                    {/* field 2 */}
-                                    <TextInput textContentType="newPassword" secureTextEntry={this.state.Pass_View2==Hide_Pass}
-                                        style={inputpassword} placeholderTextColor={'gray'}
-                                        placeholder={'Reenter Your Password Here!'} returnKeyType='join'                   
-                                        onChangeText={(password2) => this.setState({password2})}
-                                        onChange={() => this.reset_field2()} ref={(input) => { this.confpass = input;}}
-                                        onSubmitEditing={()=> this.signup_attempt()} keyboardAppearance={dark?'dark':'light'}
-                                        />
+        {/* A - 2 - A - 2 - B - userid check */}
+                            <View style={styles.useridverify}>
 
-                                    <TouchableOpacity
-                                        activeOpacity={1}
-                                        disabled={!this.state.enablePass2}
-                                        underlayColor={'#747474'}
-                                        style={styles.passwordview}
-                                        onPress={()=> this.setState({Pass_View2:(this.state.Pass_View2==Hide_Pass ? Show_Pass:Hide_Pass)})}>
-                                        <Image style={styles.thumb} source={this.state.Pass_View2} />
-                                    </TouchableOpacity>
-                                </View>
-
-                                <TouchableHighlight style={styles.signupbutton} underlayColor="#000" onPress={() => this.signup_attempt()}>
-                                    <Text style={styles.signupbuttontext}>signup</Text>                            
+        {/* A - 2 - A - 2 - B - 1 - userid verify button */}
+                                <TouchableHighlight  style={styles.useridverifybutton} onPress={()=>this.check_availability()}  activeOpacity={1} underlayColor='steelblue' disabled={true} >
+        
+        {/* A - 2 - A - 2 - B - 1 - A - userid verify button icon */}
+                                    <Image source={this.state.User_Status} style={styles.thumb}/>                           
                                 </TouchableHighlight>
-                                <Text style={signupresult}>{this.state.result2}</Text>
                             </View>
+                        </View>
+
+        {/* A - 2 - A - 3 - userid verify result text */}
+                        <Text style={resulttext}>{this.state.result}</Text>
+
+        {/* A - 2 - A - 4 - user details box */}
+                        <View style={signupbox}>
+
+        {/* A - 2 - A - 4 - A - name text */}
+                            <Text style={styles.useridtext}>enter your name...</Text>
+
+        {/* A- 2 - A - 4 - B - enter name box */}
+                            <View style={[styles.useridbox, , {backgroundColor:dark?'lightgrey':'#ffffff'}]}>
+
+        {/* A - 2 - A - 4 - B - 1 - name input */}
+                                <TextInput textContentType="name" style={styles.inputuserid}
+                                    onSubmitEditing={() => { this.newpass.focus(); }} placeholder={'Enter Name!'}
+                                    onChangeText={(name)=>this.setState({name})} keyboardAppearance={dark?'dark':'light'}
+                                    onChange={()=>this.disable_password()} returnKeyType="next" blurOnSubmit={false}
+                                    />
+                            </View>
+
+        {/* A - 2 - A - 4 - C - new password text */}
+                            <Text style={styles.useridtext}>enter a password...</Text>
+
+        {/* A - 2 - A - 4 - D - new password box */}
+                            <View style={passwordbox}>
+        
+        {/* A - 2 - A - 4 - D - 1 - new password field */}
+                                <TextInput textContentType="newPassword" secureTextEntry={this.state.Pass_View1==Hide_Pass}
+                                    style={inputpassword} placeholderTextColor={'#808080'}
+                                    placeholder={'Enter Your Password Here!'} keyboardAppearance={dark?'dark':'light'}
+                                    onChangeText={(password) => this.setState({password})}
+                                    onChange={() => this.dis_pass2()} ref={(input) => { this.newpass = input;}}
+                                    blurOnSubmit={false} returnKeyType="next" onSubmitEditing={() => { this.confpass.focus(); }}
+                                    />
+
+        {/* A - 2 - A - 4 - D - 2 - password view for new password */}
+                                <TouchableOpacity
+                                    activeOpacity={1}
+                                    disabled={(!this.state.enablePass1)}
+                                    underlayColor={'#747474'}
+                                    style={passwordverifybutton} 
+                                    onPress={()=> this.setState({Pass_View1:(this.state.Pass_View1==Hide_Pass ? Show_Pass:Hide_Pass)})}>
+                                    <Image style={styles.thumb} source={this.state.Pass_View1} />
+                                </TouchableOpacity>
+                            </View>
+
+        {/* A - 2 - A - 4 - E - confirm password text */}
+                            <Text style={styles.useridtext}>confirm your password...</Text>
+
+        {/* A - 2 - A - 4 - F - confirm password box */}
+                            <View style={passwordbox}>
+        
+        {/* A - 2 - A - 4 - F - 1 - confirm password field */}
+                                <TextInput textContentType="newPassword" secureTextEntry={this.state.Pass_View2==Hide_Pass}
+                                    style={inputpassword} placeholderTextColor={'#808080'}
+                                    placeholder={'Reenter Your Password Here!'} returnKeyType='join'                   
+                                    onChangeText={(password2) => this.setState({password2})}
+                                    onChange={() => this.dis_pass1()} ref={(input) => { this.confpass = input;}}
+                                    onSubmitEditing={()=> this.signup_attempt()} keyboardAppearance={dark?'dark':'light'}
+                                    />
+
+        {/* A - 2 - A - 4 - F - 2 - password view for confirm password*/}
+                                <TouchableOpacity
+                                    activeOpacity={1}
+                                    disabled={!this.state.enablePass2}
+                                    underlayColor={'#747474'}
+                                    style={passwordverifybutton}
+                                    onPress={()=> this.setState({Pass_View2:(this.state.Pass_View2==Hide_Pass ? Show_Pass:Hide_Pass)})}>
+                                    <Image style={styles.thumb} source={this.state.Pass_View2} />
+                                </TouchableOpacity>
+                            </View>
+
+        {/* A - 2 - A - 4 - G - signup button */}
+                            <TouchableHighlight style={styles.signupbutton} underlayColor="#000" onPress={() => this.signup_attempt()}>
+
+        {/* A - 2 - A - 4 - G - 1 - signup button text */}
+                                <Text style={styles.signupbuttontext}>signup</Text>                            
+                            </TouchableHighlight>
+
+        {/* A - 2 - A - 4 - H - shows signup attempt result */}
+                            <Text style={signupresult}>{this.state.result2}</Text>
                         </View>
                     </View>
                 </ScrollView>
+
+        {/* A - 3 - footer region (contains button to change theme) */}
                 <View style={[styles.footerregion, {backgroundColor:dark?'#ffffff':'#000000'}]}>
+
+        {/* A - 3 - A -  theme change button*/}
                     <TouchableHighlight style={styles.themebutton} underlayColor={dark?'#000000':'#ffffff'} onPress={()=>{this.change_theme();this.props.setTheme(!dark)}}>
-                        <Text style={{padding:5, color:dark?'black':'white'}}>{dark?'LIGHT':'DARK'}</Text>
+        
+        {/* A - 3 - A - 1 - text for theme change button */}
+                        <Text style={{padding:5, color:dark?'#000000':'#ffffff'}}>{dark?'LIGHT':'DARK'}</Text>
                     </TouchableHighlight>                 
                 </View>
             </KeyboardAvoidingView>
@@ -315,10 +422,11 @@ const styles = StyleSheet.create({
         alignItems:'center',
         flexDirection:'row',
         paddingTop:10,
-        borderBottomWidth:0.5,       
+        borderBottomWidth:0.5,
+        flex:1/10 
     },
     
-    //Navigate Back button
+    //navigate Back button
     backnavigation:{
         height:34,
         width:34,
@@ -344,15 +452,14 @@ const styles = StyleSheet.create({
 
     //body containing all signup elements
     bodybox:{
-        alignItems:"center",
-        justifyContent:'flex-start',
         paddingTop:30,
+        flex:1,
     },
 
     //login box [contains login elements]
     firstcontainer: {
-        width:ms.width*8/9,
         justifyContent:'space-between',
+        marginHorizontal:10,
         alignItems:'center',
         borderRadius:4,
         padding:20,
@@ -360,15 +467,15 @@ const styles = StyleSheet.create({
         shadowOpacity:0.7,
         shadowOffset:{height:0.1},
         elevation:5,
+        flex:1
     },
 
     //text for userid box
     useridtext:
     {
-        color:'black',
+        color:'#000000',
         textAlign:'left',
         fontStyle:'italic',
-        width:ms.width*7/9,
         marginVertical:7,
     },
 
@@ -377,7 +484,6 @@ const styles = StyleSheet.create({
     {
         borderRadius:4,
         flexDirection:'row',
-        width:ms.width*7.5/9,
         height:40,
         alignContent:'center',
         marginBottom:15,
@@ -385,17 +491,15 @@ const styles = StyleSheet.create({
         shadowOpacity:0.7,
         shadowOffset:{height:0.1},
         elevation:5,
+        paddingLeft:10,
     },
 
     //input for userid
     inputuserid:{
-        borderTopLeftRadius:3,
-        borderBottomLeftRadius:3,
-        width:ms.width*7.5/9 - 45,
-        paddingHorizontal:10,
+        flex:1   
     },
 
-    // userid verification
+    //userid verification
     useridverify:{
         width:45,
         justifyContent:'center',
@@ -417,61 +521,7 @@ const styles = StyleSheet.create({
     {
         alignItems:'center'
     },
-
-    //box containing input for username
-    username:
-    {
-        backgroundColor:'white',
-        width:ms.width*7.5/9,
-        height:40,
-        borderRadius:4,
-        justifyContent:'center',
-        marginBottom:15,
-        paddingLeft:10,
-        shadowRadius:7,
-        shadowOpacity:0.7,
-        elevation:5,
-    },
-
-    //name input
-    inputname:
-    {
-    },
-    
-    //Password input container main
-    passwordbox:{
-        height:40,
-        alignContent:'center',
-        justifyContent:'center',
-        marginBottom:15,
-        flexDirection:'row',
-        borderRadius:4,
-        width:ms.width*7.5/9,
-        paddingLeft:10,
-        shadowRadius:7,
-        shadowOpacity:0.7,
-        shadowOffset:{height:0.1},
-        elevation:5,
-    },
-
-    //input for password
-    inputpassword:{
-        justifyContent:'center',
-        width:ms.width*7.5/9 - 60,
-        color:'white',
-        borderTopLeftRadius:4,
-        borderBottomLeftRadius:4,       
-    },
-
-    //button for password view
-    passwordview:{
-        justifyContent:"center",
-        alignItems:'center',
-        width:45,
-        borderTopRightRadius:4,
-        borderBottomRightRadius:4,
-    },    
-    
+       
     //button for credential submission
     signupbutton:{
         margin:10,
@@ -488,7 +538,7 @@ const styles = StyleSheet.create({
     //text style for submit button
     signupbuttontext: {
         fontSize:16,
-        color:'black',
+        color:'#000000',
         padding:7,
         fontStyle:'italic',
     },
@@ -499,10 +549,14 @@ const styles = StyleSheet.create({
         color:'darkred',
         fontStyle:'italic'
     },
+
+    //region contain theme change button
     footerregion:{
         justifyContent:'center',
         height:30,
     },
+
+    //theme change button
     themebutton:
     {
         alignItems:'center',

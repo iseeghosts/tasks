@@ -1,34 +1,37 @@
 //App.js
-
+//--^--
+//
 /* This is first screen - Login Screen */
 
 /* importing required modules */
 import React, {useState} from 'react';
-import { Text, View, TextInput, Platform, Image, KeyboardAvoidingView, Dimensions, TouchableOpacity, TouchableHighlight, StyleSheet, YellowBox, Alert, Button } from 'react-native';
+import { Text, View, TextInput, Platform, Image, KeyboardAvoidingView, Dimensions, TouchableOpacity, TouchableHighlight, StyleSheet, YellowBox} from 'react-native';
 YellowBox.ignoreWarnings(['RootErrorBoundary']);
 
+//variable for screen dimensions if needed
 var ms = Dimensions.get('window')
 
-/*Importing Button Images */
+/*importing Button Images */
+import Show_Pass from './assets/Show_Pass.png';
 import User_Check_Light from './assets/User_Check_Light.png';
 import User_Check_Dark from './assets/User_Check_Dark.png'
-import Show_Pass from './assets/Show_Pass.png';
 import Hide_Pass_Dark from './assets/Hide_Pass_Dark.png';
 import Hide_Pass_Light from './assets/Hide_Pass_Light.png'
 import Verified_User_Light from './assets/Verified_User_Light.png';
 import Verified_User_Dark from './assets/Verified_User_Dark.png'
 
 
-/* Importing functions*/
+/* importing components*/
 import UserHome from './userpages/UserHome';
 import SignUp from './SignUp';
 
-/* Importing list of users*/
+/* importing list of users*/
 import Users from './users.json'
-/*Main Function */
+
+/*main Function */
 export default function UserLogin() {
 
-    /*List of Messages */
+    /*list of Messages */
     var messages = ["seems you're not registered with us!", "Please enter a userid address first!", "Too Many Failed attempts, Please Try Again in "]
     
     /*   Unused Variables for future Usage*
@@ -36,32 +39,34 @@ export default function UserLogin() {
     */
 
     /*List of State Variables*/
-    let [count, setCount] = useState(0);     //Counter for unauthorised login attempt
-    let [result, setResult] = useState('');    //login attempt messages [if needed]
-    let [useridCheckResult, setUseridCheckResult] = useState(User_Check);    // Image URI source for userid check
-    let [disableUserid, setDisableUserid] = useState(false);     //disables userid input if counter exceeds
-    let [useridCheck, setUseridCheck] = useState(true);    // Checks if Userid is registered or not
-    let [passBoxVisibility, setPassBoxVisibility] = useState('none');    //enables password box in case userid is registered
-    let [registeredUserid, setRegisteredUserid] = useState('none');     //Enables visibility of login messages if needed.
-    let [viewPassword, setViewPassword] = useState(Hide_Pass);     // Image URI source for Password View
-    let [goHome, setGoHome] = useState(false); // Goes to Home Screen if true
-    let [userid, setUserId] = useState('');
-    let [signUp, setSignUp] = useState(false);
-    let [dark, setDark] = useState(false);
-    // let [UserHome, setUserHome] = useState(UserHomeDark);
+    let [count, setCount] = useState(0);                                    //counter for unauthorised login attempt
+    let [result, setResult] = useState('');                                 //login attempt messages [if needed]
+    let [useridCheckResult, setUseridCheckResult] = useState(User_Check);   //cmage URI source for userid check
+    let [disableUserid, setDisableUserid] = useState(false);                //disables userid input if counter exceeds
+    let [useridCheck, setUseridCheck] = useState(true);                     //checks if Userid is registered or not
+    let [passBoxVisibility, setPassBoxVisibility] = useState('none');       //enables password box in case userid is registered
+    let [registeredUserid, setRegisteredUserid] = useState('none');         //enables visibility of login messages if needed.
+    let [viewPassword, setViewPassword] = useState(Hide_Pass);              //image URI source for Password View
+    let [goHome, setGoHome] = useState(false);                              //goes to Home Screen if true
+    let [userid, setUserId] = useState('');                                 //sets userid if entered id is valid
+    let [signUp, setSignUp] = useState(false);                              //allows signing up
+    let [dark, setDark] = useState(false);                                  //sets theme for userlogin
 
-    var pass = '';  //clears exisiting password if userid is changed
-    var x;  //extracts key from JSON
-    let Hide_Pass = dark?Hide_Pass_Dark:Hide_Pass_Light
+    
+    
+    var x;                                                                  //extracts key from JSON
+    
+    //set theme specific icons
+    let Hide_Pass = dark?Hide_Pass_Dark:Hide_Pass_Light                     
     let User_Check = dark?User_Check_Dark:User_Check_Light
     let Verified_User = dark?Verified_User_Dark:Verified_User_Light
 
-    const [useridEntered, setUseridEntered] = useState('');  //Takes Input for userid
-    const [passwordEntered, setPasswordEntered] = useState('');   //Takes Input for password
-    const [b, setB] = useState(5);  //for timer in case of repeated failed attempts
+    const [useridEntered, setUseridEntered] = useState('');         //takes Input for userid
+    const [passwordEntered, setPasswordEntered] = useState('');     //takes Input for password
+    const [b, setB] = useState(5);                                  //for timer in case of repeated failed attempts
 
 
-    
+/* changing theme */  
     function change_theme() {
         setDark(!dark)
         Hide_Pass = !dark?Hide_Pass_Dark:Hide_Pass_Light
@@ -71,49 +76,42 @@ export default function UserLogin() {
         setUseridCheckResult((useridCheckResult==Verified_User_Dark||useridCheckResult==Verified_User_Light)?Verified_User:User_Check)
     }
 
+
 /* verifying userid */
     function userid_check() {
         setUseridCheck(false);
         var z = 0;
-        if (useridEntered!='') {
-            for (x in Users) {
-                if ([x] == useridEntered) {
-                        setUserId([x]);                
-                        setRegisteredUserid('none');
-                        setPassBoxVisibility('flex');
-                        setUseridCheckResult(Verified_User);
-                        setCount(0);
-                        setB(5);
-                        z = 1;
-            } }
-            if (z==0) {
-                setRegisteredUserid('flex');
-                setCount(count + 1);
-                setResult(messages[0])
-                setPassBoxVisibility('none');
-                setUseridCheckResult(User_Check_Light);
+        for (x in Users) {
+            if ([x] == useridEntered) {     //userid is true
+                setUserId([x]);                
+                setRegisteredUserid('none');
+                setPassBoxVisibility('flex');
+                setUseridCheckResult(Verified_User);
+                setCount(0);
+                setB(5);
+                z = 1;
             }
-        } else {
-            setResult(messages[1]);
-            setCount(count + 1);
+        }
+        if (z==0) {             //userid not registered
             setRegisteredUserid('flex');
+            setCount(count + 1);
+            setResult(messages[0])
+            setPassBoxVisibility('none');
             setUseridCheckResult(User_Check_Light);
         }
-
         if (count > 2) {
             setDisableUserid(true);
-            var timeout_1 = setTimeout(setUseridCheck, b*1000, true);
-            var timeout_2 = setTimeout(setDisableUserid, b*1000, false);
-            var timeout_3 = setTimeout(setResult, b*1000, '');
+            setTimeout(setUseridCheck, b*1000, true);
+            setTimeout(setDisableUserid, b*1000, false);
+            setTimeout(setResult, b*1000, '');
             setB(b*2);
-            var timeout_4 = setTimeout(setCount, b*1000, 0);
+            setTimeout(setCount, b*1000, 0);
             setResult(messages[2] + b + '\xa0seconds!');        
         }
     }
+/*end of Userid verification*/
 
-/*End of Userid verification*/
-
-/* Password Verification */
+/* password Verification */
     function login_attempt() {
         // alert(userid)
         if (passwordEntered==Users[userid].pwd) {            
@@ -122,28 +120,32 @@ export default function UserLogin() {
             alert('Nope!');
         }
     }
-/*End of Password Verification */
+/*end of Password Verification */
 
+/* user requesting sign up*/
 if (signUp) {
+    var id=''
+    if (result==messages[0]) id=useridEntered
     return (
         <View style={{flex:1}}>
-            <SignUp theme={dark} setTheme={change_theme} goHome={setGoHome} setUserId={setUserId} signUp={reset_defaults} />
+            <SignUp theme={dark} id={id} setTheme={change_theme} goHome={setGoHome} setUserId={setUserId} signUp={reset_defaults} />
         </View>
     )
 }
 
 
-/*Sample Home Screen */
+/*home Screen */
 if (goHome) {
+    alert('Welcome' + Users[userid].name+'!')
     return(
         <View style={{flex:1}}>
             <UserHome close={reset_defaults} id={userid}/>
         </View>
     )    
 }
-/*End of Home Screen function */
 
-/* Password visibility setting */
+
+/* password visibility setting */
     function password_visibility() {
         if (viewPassword!=Hide_Pass) {
             setViewPassword(Hide_Pass);
@@ -163,7 +165,7 @@ if (goHome) {
         setViewPassword(Hide_Pass);
     }
 
-    //default reset
+/*default reset invoked when user comes back from signup page or signed in user logs out or deleted their account*/
     function reset_defaults() {
             setGoHome(false);
             setSignUp(false);
@@ -176,26 +178,27 @@ if (goHome) {
             setViewPassword(Hide_Pass);
     }
 
-    //logout
 
-/*Main Return function */    
+/*main Return function */    
     return (
-        //Main Container
+    //  A - main Container
         <KeyboardAvoidingView style={[styles.mainbox, {backgroundColor:dark?'#333333':'#ffdddd'}]} behavior={Platform.OS == "ios" ? "padding" : ""}>
 
-            {/*Body (Contain all login elements)*/}
+    {/* A - 1 - body (Contain login box)*/}
             <View style={styles.bodybox}>
+
+    {/* A - 1 - A - contains login elements */}
                 <View style={[styles.mainloginbox, {backgroundColor:dark?'#777777':'#ddffff'}]}>
 
-            {/*Heading Text*/}
-                <View style={[styles.headerlogin, {backgroundColor:dark?'#333333':'#367588'}]}>
-                    <Text style={styles.headerlogintext}>let's get you signed in!</Text>
-                </View>    
+    {/* A - 1 - A - 1 - login Header*/}
+                    <View style={[styles.headerlogin, {backgroundColor:dark?'#333333':'#367588'}]}>
+                        <Text style={styles.headerlogintext}>let's get you signed in!</Text>
+                    </View>    
 
-            {/*Userid Main Box*/}
+    {/* A - 1 - A - 2 - userid Main Box*/}
                     <View style={[styles.useridbox, {backgroundColor:dark?'#535353':'#ffffdd'}]}> 
 
-            {/*Userid Input (can be disabled)*/}
+    {/* A - 1 - A - 2 - A - userid Input (can be disabled)*/}
                         <TextInput editable={!disableUserid} style={styles.inputuserid}
                             placeholder={'Please enter your user id...'}
                             onChangeText={useridEntered=>setUseridEntered(useridEntered)}
@@ -205,24 +208,26 @@ if (goHome) {
                             onSubmitEditing={userid_check}
                             defaultValue={useridEntered} />
 
-            {/*Userid check button [userid_check] (with disable and variable image uri)*/}
+    {/* A - 1 - A - 2 - B - userid check button [userid_check] (with disable and variable image uri)*/}
                         <TouchableHighlight activeOpacity={1}
-                            disabled={!useridCheck}
-                            underlayColor="#0070bb" onPress={userid_check} style={styles.useridverify}>
+                            disabled={!useridCheck} underlayColor="#0070bb"
+                            onPress={userid_check} style={styles.useridverify}>
+
+    {/* A - 1 - A - 2 - B - 1 - userid check button icon*/}
                                 <Image style={styles.buttonthumbs} source={(useridCheckResult==null?dark?User_Check_Dark:User_Check_Light:useridCheckResult)} />
                         </TouchableHighlight>
                     </View>
 
-            {/*Text returning error messages in userid verification*/}
+    {/* A - 1 - A - 3 - text returning error messages in userid verification*/}
                     <Text style={[styles.resulttext, { display:registeredUserid}]}>{result}</Text>
             
-            {/*(Container used for hiding passwordBox until userid is verified)*/}
+    {/* A - 1 - A - 4 - container used for hiding passwordBox until userid is verified*/}
                     <View style={{display:passBoxVisibility, alignItems:'center'}}>
             
-            {/*Flexbox for password*/}
+    {/* A - 1 - A - 4 - A - flexbox for password*/}
                         <View style={[styles.passwordbox, {backgroundColor:dark?'black':'lightgrey'}]}>
 
-            {/*Password Input Box*/}
+    {/* A - 1 - A - 4 - A - 1 - password Input Box*/}
                             <TextInput secureTextEntry={viewPassword==(dark?Hide_Pass_Dark:Hide_Pass_Light)} style={[styles.inputpassword, {color:dark?'white':'black'}]}
                                     placeholder={'Input Your Password Here!'} placeholderTextColor='grey'
                                     onChangeText={passwordEntered => setPasswordEntered(passwordEntered)}
@@ -230,60 +235,74 @@ if (goHome) {
                                     textContentType="password" autoCompleteType='off'
                                     />
 
-            {/*Button for viewing password [password_visibility] (has a variable image uri)*/}
-                            <TouchableOpacity activeOpacity={1} underlayColor={'#747474'} onPress={password_visibility} style={styles.passwordview}>
+    {/* A - 1 - A - 4 - A - 2 - button for viewing password [password_visibility] (has a variable image uri)*/}
+                            <TouchableOpacity
+                                activeOpacity={1}underlayColor={'#747474'}
+                                onPress={password_visibility} style={styles.passwordview}>
+
+    {/* A - 1 - A - 4 - B - 2 -A - icon for password view button */}
                                 <Image style={styles.buttonthumbs} source={viewPassword} />
                             </TouchableOpacity>
                         </View>
 
-            {/*Button to submit password [login_attempt] (shares the visibility criteria same as password box)*/}
-                        <TouchableOpacity style={[styles.submitbutton, {backgroundColor:dark?'#444444':'#000044'}]} underlayColor="#000" onPress={login_attempt}>
+    {/* A - 1 - A - 4 - A - 1 - B - button to submit password [login_attempt] (shares the visibility criteria same as password box)*/}
+                        <TouchableOpacity
+                            style={[styles.submitbutton, {backgroundColor:dark?'#444444':'#000044'}]}
+                            underlayColor="#000" onPress={login_attempt}>
+
+    {/* A - 1 - A - 4 - A - 1 - B - 1 - password submit text */}
                             <Text style={styles.submitbuttontext}>submit</Text>                            
                         </TouchableOpacity>
                     </View>
-            {/*Button for signing up if the user is not registered and is interested []*/}
+
+    {/* A - 1 - A - 5 - button for signing up if the user is not registered and is interested []*/}
                     <View style={[styles.signupbox, {backgroundColor:dark?'#555555':'#C9C9C9'}]}>
+
+    {/* A - 1 - A - 5 - A - text for sign up */}
                         <Text>Don't have any account with us yet?</Text>
+    {/* A - 1 - A - 5 - B - signup button */}
                         <TouchableOpacity style={styles.signupbutton} onPress={() => setSignUp(true)}>
+    
+    {/* A - 1 - A - 5 - B - 1 - signup button text*/}
                             <Text style={[styles.signupbuttontext, {color:dark?'green':'darkred'}]}>sign up!</Text>                                
                         </TouchableOpacity>
                     </View>
                 </View>
             </View>
+
+    {/* A - 2 - footer region */}
             <View style={[styles.footerregion, {backgroundColor:dark?'#ffffff':'#000000'}]}>
+
+    {/* A - 2 - A - button to change theme */}
                 <TouchableHighlight style={styles.themebutton} underlayColor={dark?'#000000':'#ffffff'} onPress={()=>change_theme()}>
+
+    {/* A - 2 - A - 1 - theme change button text */}
                     <Text style={{padding:5, color:dark?'black':'white'}}>{dark?'LIGHT':'DARK'}</Text>
                 </TouchableHighlight>                 
             </View>
-            {/*End of Main Login Box*/}
         </KeyboardAvoidingView>
-        //End of Main Container
     );
-    /*End of Main return function*/
 }
 //End of Main Function
 
-/*Styles (in order of heirarchy)*/
+/*styles (in order of heirarchy)*/
 const styles = StyleSheet.create({
 
-    //full container
-
+//full container
     mainbox:{
         flex:1,
     },
 
-    //main body [contains login box]
-
+//main body [contains login box]
     bodybox:{
         flex:1,
         alignItems:"center",
         justifyContent:'center',
     },
 
-    //login box [contains login elements]
-
+//login box [contains login elements]
     mainloginbox: {
-        width:Dimensions.get('window').width*8/9,
+        width:ms.width*8/9,
         minHeight:230,
         justifyContent:'space-between',
         alignItems:'center',
@@ -295,7 +314,7 @@ const styles = StyleSheet.create({
         shadowOffset:{height:1}
     },
 
-    //login heading
+//login heading
     headerlogin:{
         marginVertical:10,
         padding:7,
@@ -306,6 +325,7 @@ const styles = StyleSheet.create({
         shadowOffset:{height:1}
     },
 
+//text styles for login header
     headerlogintext:{
         textAlign:'center',
         textAlignVertical:'auto',
@@ -313,13 +333,12 @@ const styles = StyleSheet.create({
         fontSize:15,        
     },
 
-    //Userid input container main
-
+//userid input container main
     useridbox:{
         marginVertical:10,
         borderRadius:4,
         flexDirection:'row',
-        width:Dimensions.get('window').width*7.5/9,
+        width:ms.width*7.5/9,
         height:40,
         alignContent:'center',
         justifyContent:'center',
@@ -329,17 +348,15 @@ const styles = StyleSheet.create({
         shadowOffset:{height:0.1}
     },
 
-    //input for userid
-
+//input for userid
     inputuserid:{
         borderRadius:4,
-        width:Dimensions.get('window').width*7.5/9 - 45,
+        width:ms.width*7.5/9 - 45,
         paddingHorizontal:10,
         justifyContent:'flex-start',
     },
 
-    //button for userid verification
-
+//button for userid verification
     useridverify:{
         marginVertical:2.5,
         marginHorizontal: 5,   
@@ -351,14 +368,14 @@ const styles = StyleSheet.create({
         shadowRadius:2,
     },
 
+//text style for login messages
     resulttext:
     {
         color:'darkred',
         marginVertical:10,
     },
 
-    //Password input container main
-
+//password input container main
     passwordbox:{
         height:40,
         alignContent:'center',
@@ -367,24 +384,22 @@ const styles = StyleSheet.create({
         marginVertical:10,
         flexDirection:'row',
         borderRadius:4,
-        width:Dimensions.get('window').width*7.5/9,
+        width:ms.width*7.5/9,
         paddingLeft:10,
         shadowRadius:7,
         shadowOpacity:0.7,
         shadowOffset:{height:1},
     },
 
-    //input for password
-
+//input for password
     inputpassword:{
         justifyContent:'flex-start',
-        width:Dimensions.get('window').width*7.5/9 - 55,
+        width:ms.width*7.5/9 - 55,
         borderTopLeftRadius:4,
         borderBottomLeftRadius:4,       
     },
 
-    //button for password view
-
+//button for password view
     passwordview:{
         justifyContent:"center",
         alignItems:'center',
@@ -393,8 +408,7 @@ const styles = StyleSheet.create({
         borderBottomRightRadius:4,
     },
 
-    //button for credential submission
-
+//button for credential submission
     submitbutton:{
         padding:8,
         borderRadius:4,
@@ -407,15 +421,13 @@ const styles = StyleSheet.create({
         
     },
 
-    //text style for submit button
-
+//text style for submit button
     submitbuttontext: {
         fontSize:13,
         color:'white',
     },
 
-    //Signup container main
-
+//signup container main
     signupbox:{
         marginVertical:10,
         padding:10,
@@ -429,35 +441,31 @@ const styles = StyleSheet.create({
         elevation:5,
     },
 
-    //styles for signup button
-
+//styles for signup button
     signupbutton:{
     },
 
-    //text style for signup button
-
+//text style for signup button
     signupbuttontext:{
         fontStyle:'italic',
         paddingLeft:10,
         textDecorationStyle:"dashed"
     },
 
-    //footer region
-
+//footer region
     footerregion:{
         justifyContent:'center',
         height:30,
     },
 
-    //button
+//theme button
     themebutton:
     {
         alignItems:'center',
         justifyContent:'center',
     },
 
-    //Thumbnail for buttons
-    
+//thumbnail for buttons
     buttonthumbs:{
         height:35,
         width:35,

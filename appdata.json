@@ -16,5 +16,11 @@
         "alwaysshowsearch":false,
         "SearchResultFound":0,
         "theme":"dark"  
+    },
+    "id4":{
+        "taskMargin":8,
+        "alwaysshowsearch":false,
+        "SearchResultFound":0,
+        "theme":"dark"
     }
 }
