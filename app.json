@@ -23,7 +23,6 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "icon":"./assets/splash.png",
       "requireFullScreen":true
     },
     "androidStatusBar": {

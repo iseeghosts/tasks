@@ -50,3 +50,13 @@ Tasks app comes with dark/light theme mode and can be changed from settings.
 <img align="center" src="./files/loginscreen/dark-default.png">
 <br>
 <br>
+
+# Note
+This branch is being tested mainly on iOS platform and may not work as expected/previewed on android.
+## Features that will not work as shown are
+- Rubber band animation in scrolling behaviour
+- Smooth Scrolling
+- Shadows (elevation, that is currenlty available for android doesn't have features like opacity and offset)
+## Features that may not work
+- content inset (margin at the end of flatlist that allows add task button to not hinder a note)
+- color may not display acuurate in some cases.

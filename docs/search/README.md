@@ -3,6 +3,16 @@ Search seamlessly using search in your tasks with cheats
 
 ![search demo](../../files/search/demo-light.gif)
 
+## Always Show Search Mode
+In general, your search bar can hide under expanded User Options, but this can be changed in always show search mode
+<img align="left" src="./files/homescreen/light-default.png">
+<img align="right" src="./files/homescreen/light-profile-expanded.png.png">
+
+
+If Always show search mode is enabled
+
+<img align="left" src="./files/homescreen/light-ass-true.png">
+
 ## How to access search
 - if always show search is enabled, the searchbox is located below an Open Profile option or right to a closed profile menu
  - otherwise hides when profile menu is open

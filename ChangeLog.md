@@ -13,58 +13,89 @@ All short variables as abcd
 ```
 
 # Main Login Box
-- added shadows,
-- added email box
-- added feature where passowrd box won't be visible until a registered email is entered
-- added seperate prompts for incorrect email and no email is entered.
-- added feature where entering wrong or no email and sending email check request will not work after 5 attempts.
-- added feature where editing email field after verification will hide the password field
-- (fix) added feature where editing email field after verification will also reset the password field.
-- added password view property where clicking on view will show your password.
-- (fix) fized issue where old entered password remained even when password entry field appeared empty.
-- adjustment of logos
-- added feature where entering a verified email will display the verified email logo
-- added feature where if an email is verified, the check request will be disbaled until further changes are made in email field.
-- added timer properties, where a timer is run after unsuccessful too many attempts
-- added disable support to email after too many unsuccessful attempts
-- added support to show time [not countdowning live on screen though], required to be able to retry.
-- logged in home page is created
-- added support for logging in with user id and password from users.json
-- added feature where userid will be passed to after login for user header
-- improved experience where users.json will now have name, for each will have their user id and password, name will be passed on instead of userid
-- logout function is added 
+- (added) creating pre-alpha login screen ui
+- (added feature) added icons for userid check and password check
+- (added feature) password box won't be visible until a registered userid is entered
+- (added feature) seperate prompts for incorrect userid and no userid entered
+- (added feature) entering wrong or no userid and sending userid check request will not work after 5 attempts
+- (added feature) feature where editing userid field after verification will hide the password field
+- (added feature) feature where editing userid field after verification will also reset the password field
+- (added feature) password view property where clicking on eye icon will show your password
+- (fixed) submitting with out entering password worked afer logout even if password field appeared empty
+- (fixed) adjustment of assets
+- (added feature) entering a verified userid will display the verified userid logo
+- (added feature) if an userid is verified, the check request will be disabled until further changes are made in userid field
+- (added feature) a timer is run after too many unsuccessful attempts
+- (added feature) disable userid input after too many unsuccessful attempts
+- (added support) to show time [not countdowning live on screen though], required to be able to retry
+- (initiation) logged in home page is created
+- (added support) for logging in with user id and password from users.json
+- (added feature) feature where userid will be passed to after login for user header
+- (changed behaviour) users.json will now have name, for each will have their user id and password
+- (changed behaviour) name will be passed on instead of userid
+- (added support) logout function is added
+
+## Recent Changes
+- (change) user.json -> userid -> {name, passowrd}
+- (added feature) email can be submitted via both keyboard and button
+- (removed) back navigation button
+- (added feature) dark and light theme
+- (fixed) numerous issues with icon rendering in dark and light mode
+- (added feature) signup page and login page share the same theme
+- (added feature) keyboard will share the same theme as the app
 
 # Home Screen
-- added user header feature where clicking on profile will display option for users - (function for those aren't made yet)
-- added support for flatlist using items from tasks.json
-- added check items to mark them done in items list
-- added support to delete items
-- added support to edit the content
-- (fix) improvements in styling with proper shadows and borders
-- added support to delete items
-- (fix) removed unneccessary margin from bottom
+- (added feature) user header feature where clicking on profile will display option for users - (function for those aren't made yet)
+- (added feature) support for flatlist using items from tasks.json
+- (added feature) check items to mark them done in items list
+- (added feature) support to delete items
+- (added feature) support to edit the content
+- (fixed) improvements in styling with proper shadows and borders
+- (added feature) support to delete items
+- (fixed) removed unneccessary margin from bottom
 - improved look of buttons with cooler icons,
-- fixed feature where editing will not be visible because of being covered by keyboard
-- fixed feature where items will not scroll to the end
+- (fixed) editing will not be visible because of being covered by keyboard
+- (fixed) items will not scroll to the end
 - improved editing experince - edit icon will change when in edit mode
-- (fix) added some more empty space at the end to fix issue where certain notes could be edited as buttons being covered by addnote button
-- added feature where an empty task in the list will have editing enabled by default (for future add note function)
-- added note adding function, pressing plus icon on lower right corber will add an empty task
-- improvements - clicking on delete will now prompt confirmation dialog. 
-- (fix) - fixed an issue where during editing a task if you delete the exisiting text, the text will come back as placeholder
-- (fix) - fixed issue where deleting an empty task (only the empty task created by erasing preexisting value) still show confirmation dialog with task detail showing it's original value
+- (fixed) tasks at the end of list could not be modified being covered by addtask button
+- (added feature) an empty task in the list will have editing enabled by default (for future add task function)
+- (added feature) task adding function, pressing plus icon on lower right corber will add an empty task
+- (changed behaior) clicking on delete will now prompt confirmation dialog. 
+- (fixed) if you delete the exisiting task content, the text will come back as placeholder
+- (fixed) deleting an empty task may show it's earlier contents
+- (added feature) expandable user options
+- (added feature) logout button
 - (changed behaviour) deleting an empty task will not ask for confirmation
 - (changed bahaviour) removed behaviour where an empty task can be marked as done
-- (fix) removed bahavious where a task could be marked as done during editing - this allowed user to bypass diable mark done for empty strings
-- (changed bahaviour) removed bahviour where a task could be deleted during editing
-- added styles based on status of task (i.e - new task, being editted task etc...)
-- (changed behaviour) a new task will appear on top of list instead of bottom, and added feature where list will scroll up to the last added task
-- added feature - a new task will have a random id to avoid same id conflicts
-- added feature - ability for newly created task to add time of last update by default
-- added feature - button added which will display details of the task
-- changed behaviour - profile option will be visible by default, View Profile has been replaced by Logout button
-- Logout function has been updated
-- added feature - user specific tasks
-- (fix) fixed issue where user specific task threw error
-- (fix) fixed issue where logging back in after log out will reset your new tasks to empty
-- 
+- (changed behaviour) a task can't be marked as done during editing - this allowed user to bypass diable mark done for empty strings
+- (changed bahaviour) a task can't be deleted during editing
+- (added feature) styles based on status of task (i.e - new task, being editted task etc...)
+- (changed behaviour) a new task will appear on top of list instead of bottom
+- (added feature) list will scroll up to the last added task
+- (added feature) a new task will have a random id to avoid same id conflicts
+- (added feature) ability for newly created task to add time of last update by default
+- (added feature) button added which will display details of the task
+- (changed behaviour) profile option will be visible by default, View Profile has been replaced by Logout button
+- (new) Logout function has been updated
+- (added feature) user specific tasks
+- (fixed) user specific task threw error
+- (fixed) logging back in after logout will reset your new tasks to empty
+- (fixed) items were still visible after delete
+- (new) Usersetting page
+
+## Recent Changes
+- (removed) logout button for recycle bin option
+- (new) Recycle bin for deleted items
+- (new) Search Feature
+- (added feature) - Footer displaying number of results
+- (fixed) numerous issues with showing results
+- (added support) searching in recycle bin
+- (added feature) shortcuts for searching [more details](/docs/search/readme.md#overview##options-and-shortcuts-for-search)
+- (added feature) searching in Recycle Bin
+- (added feature) a header indicating whether user is in recycle bin or not
+- (added feature) all other options will disappear when focusing on search
+- (new) dark and light theme
+- (added feature) different icons for dark and light theme
+- (fixed) numerous issues with rendering with dark and light themes
+- (added feature) option for always show search [more details](/docs/search/readme.md#home-screen##always-show-search-mode)
+

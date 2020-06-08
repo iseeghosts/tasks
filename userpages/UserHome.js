@@ -7,22 +7,22 @@ import React, {Component} from 'react'
 import {View, Text, FlatList, Platform, Dimensions, StyleSheet, KeyboardAvoidingView, TextInput, Image} from 'react-native'
 
 //Importing functions
-import SavedNoteDark from '../components/SavedNoteDark'    //Function resposible for maintaining notes (editing, deleting, checking)
-import SavedNoteLight from '../components/SavedNoteLight'
+// import SavedNoteDark from '../components/SavedNoteDark'    //Function resposible for maintaining notes (editing, deleting, checking)
+// import SavedNoteLight from '../components/SavedNoteLight'
+import SavedNote from '../components/AllNotes'
 import WelcomeUser from '../components/WelcomeUser'  //Header for logged in user [View Profile] - incomplete, [settings] - incomplete
 import AddNoteButton from '../components/AddNoteButton'  //Button to add notes
 import UserSettings from './UserSettings'
 
-import Search_Icon from '../assets/Search_Icon.png'
-
+import Search_Icon_Light from '../assets/Search_Icon_Light.png'
+import Search_Icon_Dark from '../assets/Search_Icon_Dark.png'
 //imprting list of tasks
 import Tasks from '../tasks.json'
 
 import AppData from '../appdata.json'
 
 var ms = Dimensions.get('window');
-
-var SavedNote = SavedNoteDark
+var header = ''
 
  /*This is the User Home Component - accessible after user inputs correct id and password*/
 
@@ -39,7 +39,8 @@ var SavedNote = SavedNoteDark
             b:0,
             dis:'flex',
             po:false,
-            rbo:false
+            rbo:false,
+            mytask:Tasks[props.id],
         }
     }
 
@@ -62,26 +63,18 @@ var SavedNote = SavedNoteDark
 
     task_header = () => {
         AppData[this.props.id].SearchResultFound=0
-        var result = ''
         var search = this.state.search.toLowerCase()
-        result = (search?(search.slice(0,8)==('@deleted')?'Recycle Bin':''):'Tasks')
-          var taskheadertext = StyleSheet.flatten([
-              styles.taskheadertext, {
-                  color:(AppData[this.props.id].theme=='dark'?'white':'black'),
-              }
-          ])
-        return(
-            <View style={styles.taskheader}>
-                <Text style={taskheadertext}>{result}</Text>
-            </View>
+        header = (search.slice(0,8)==('@deleted')?'Recycle Bin':'Tasks')
+        return( null
+
         )
     }
 
     task_footer = () => {
         var res = AppData[this.props.id].SearchResultFound
+        var result=''
         var search = this.state.search.toLowerCase()
         var res2 = false
-        var result = ''
         if (search && !(search.slice(0,8)=='@deleted')) {
             if (search.slice(0,9)=='@complete' || search.slice(0,11)=='@incomplete' || search.slice(0,10)=='@complete ' || search.slice(0,12)=='@incomplete ') {
                 res2=true
@@ -90,7 +83,7 @@ var SavedNote = SavedNoteDark
                 res2=(search3=='')
                 }
             }            
-            result = (res<1?'No':res) + " " + (res2?'':'matching ') + (res==1?'result':'results') + (" found!")
+            result = (res<1?'No':res) + " " + (res2?'':'matching ') + (res==1?'result':'results') + (" found in Tasks!")
             // console.log(result)
         } else if (search && (search=='@deleted' || search=='@deleted ')) {
             result = (res==0?'No':res) + " deleted " + (res==1?'task':'tasks') + " in Recycle Bin"
@@ -105,19 +98,16 @@ var SavedNote = SavedNoteDark
                 }
             }
             result = (res==0?'No':res) + (res2?' ':' matching ') + (res==1?'result':'results') + (" in Recycle Bin!")
-        } else {
-            result= res + " tasks!"
         }
         // console.log(result)
         return(
-            <View style={styles.taskfooter}>
+            <View>
                 <Text style={[styles.taskfootertext, {color:AppData[this.props.id].theme=='dark'?'white':'#333333'}]}>{result}</Text>
             </View>
         )
     }
 
-    render () {
-        
+    render () {       
 
         if (this.state.openSettings) {
             return (
@@ -127,28 +117,28 @@ var SavedNote = SavedNoteDark
             )
           }
         const id = this.props.id
-        const mytask = Tasks[id]   //this is an array [{key:'', content:''},{}]
         let theme = AppData[this.props.id].theme
-        if (theme=='dark') {
-            SavedNote=SavedNoteDark
-        } else {
-            SavedNote= SavedNoteLight
-        }
+        let dark = theme=='dark'
 
         let ass = AppData[this.props.id].alwaysshowsearch
+        var taskheadertext = StyleSheet.flatten([
+            styles.taskheadertext, {
+                color:(AppData[this.props.id].theme=='dark'?'white':'black'),
+            }
+        ])
     
         return(
-            <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : ""} style={[styles.maincontainer,{backgroundColor:(theme=='dark'?'#323232':'white'), paddingTop:theme=='dark'?0:20, marginTop:theme=='dark'?20:0}]}>
+            <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "height" : ""} style={[styles.maincontainer,{backgroundColor:(theme=='dark'?'#323232':'white'), paddingTop:theme=='dark'?0:20, marginTop:theme=='dark'?20:0}]}>
                     <View style={styles.firstcontainer}>
 
-                        <View style={[styles.userheader,{flexDirection:this.state.po?'column':'row'}]}>
+                        <View style={[styles.userheader,{flexDirection:this.state.po?'column':'row', backgroundColor:theme=='dark'?'#919191':'snow'}]}>
 
                             <View style={{display:this.state.dis}}>
                                 <WelcomeUser rbo={this.state.rbo} po={this.state.po} op={()=>{this.setState({po:!this.state.po})}} id={this.props.id} openSettings={this.user_settings} recyclebin={() => this.setState({search:(this.state.rbo?'':'@deleted'),rbo:!this.state.rbo})}/>
                             </View>
 
-                            <View style={[styles.searchbox, {flex:this.state.po?0:1, display: ( ass || !this.state.po) ?'flex':"none" ,backgroundColor:'gray'}]}>
-                                <Image style={styles.searchicon} source={Search_Icon} />
+                            <View style={[styles.searchbox, {flex:this.state.po?0:1, display: ( ass || !this.state.po) ?'flex':"none" ,backgroundColor:theme=='dark'?'gray':'#00808050'}]}>
+                                <Image style={styles.searchicon} source={dark?Search_Icon_Dark:Search_Icon_Light} />
 
                                 <TextInput style={styles.searchtext} placeholder='Search' placeholderTextColor="#666666" defaultValue={this.state.search}
                                     onEndEditing={()=>{this.setState({dis:(this.state.search==''?'flex':'none'),rbo:this.state.search.includes('@deleted')});}}
@@ -157,27 +147,28 @@ var SavedNote = SavedNoteDark
 
                             </View>
                         </View>
+                        <View style={styles.taskheader}>
+                            <Text style={taskheadertext}>{header}</Text>
+                        </View>
                         <View style={styles.flatlistcontainer}>
-                            <FlatList ref={ref => this.flatList = ref}                                
+                            <FlatList  inverted ref={ref => this.flatList = ref}                                
                                 ListHeaderComponent={this.task_header}
                                 ListFooterComponent={this.task_footer}
+                                ListFooterComponentStyle={styles.taskfooter}
                                 showsVerticalScrollIndicator={false}
-                                // contentInset={{bottom:85}}
-                                onLayout={() => {this.setState({search:this.state.search})}}
-                                onContentSizeChange={() => {this.setState({search:this.state.search})}}
-                                data={mytask.sort((a, b) => b.date_created.localeCompare(a.date_created))}
+                                contentInset={{top:65}}
+                                onContentSizeChange={()=>{this.setState({mytask:Tasks[id]}); this.flatList.scrollToEnd({animated:true})}}
+                                data={this.state.mytask.sort((a, b) => a.status.localeCompare(b.status))}
                                 renderItem={({item}) =>
-                                <SavedNote task={item} id={id} search={this.state.search} />
+                                <SavedNote resetlook={()=>this.setState({mytask:Tasks[id]})} task={item} id={id} search={this.state.search} />
 
                             } keyExtractor={item => item.key.toString()}
                                     />
                         </View>
                     </View>
-
                     <View style={[styles.addnotes,{display:this.state.rbo?'none':this.state.dis}]}>
                         <AddNoteButton theme={theme} onPress={this.add_newtask}/>
-                    </View>
-                
+                    </View>                
             </KeyboardAvoidingView>
 
         )
@@ -190,19 +181,15 @@ const styles = StyleSheet.create({
     
     taskheader:
     {
-        margin:5,
-
+        alignItems:'center',
     },
     taskheadertext:
     {
-        fontSize:50,
+        fontSize:40,
     },
     taskfooter:
     {
         alignItems:'center',
-        justifyContent:'center',
-        padding:10,
-        paddingBottom:105,
     },
     taskfootertext:
     {
@@ -222,10 +209,11 @@ const styles = StyleSheet.create({
 
     //Header for Logged In Screen
     userheader: {
-        padding:5,
-        paddingVertical:1,
+        padding:3,
         alignItems:'center',
         justifyContent:'space-evenly',
+        backgroundColor:'snow',
+        borderBottomWidth:0.3,
     },
     searchbox:
     {
@@ -251,6 +239,7 @@ const styles = StyleSheet.create({
     },
     flatlistcontainer: {
         width:ms.width,
+        flex:1
     },
     addnotes: {
         justifyContent:'flex-end',

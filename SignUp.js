@@ -10,17 +10,26 @@ import AppData from './appdata.json'
 
 
 //Importing Images
-import Userid_Check from './assets/Userid_Check.png' //check userid image url
-import Verified_UserId from './assets/Verified_UserId.png' //verified userid image url
+import User_Check_Light from './assets/User_Check_Light.png' //check userid image url
+import User_Check_Dark from './assets/User_Check_Dark.png'
+import Verified_User_Dark from './assets/Verified_User_Dark.png' //verified userid image url
+import Verified_User_Light from './assets/Verified_User_Light.png'
 import Show_Pass from './assets/Show_Pass.png';
-import Hide_Pass from './assets/Hide_Pass_Dark.png';
-import Back_Arrow from './assets/Back_Arrow.png'
+import Hide_Pass_Light from './assets/Hide_Pass_Light.png'
+import Hide_Pass_Dark from './assets/Hide_Pass_Dark.png';
+import Back_Arrow_Dark from './assets/Back_Arrow_Dark.png'
+import Back_Arrow_Light from './assets/Back_Arrow_Light.png'
 var messages = ["Sorry, this user id is not available","Kindly fill all the fields", "this userid is available", "Passwords do not match!"];
 var ms = Dimensions.get('window')
 var x;
+var Hide_Pass
+var User_Check
+// var Show_Pass
+var Verified_User
 
 export default class SignUp extends Component {
-    constructor() {
+    constructor(props) {
+        var Hide_Pass = props.theme?Hide_Pass_Dark:Hide_Pass_Light
         super()
         this.state = {
             name:'',
@@ -32,23 +41,40 @@ export default class SignUp extends Component {
             enablePass2:true,
             result:'',
             result2:'',
-            User_Status:Userid_Check,
+            User_Status:props.theme?User_Check_Dark:User_Check_Light,
             Pass_View1:Hide_Pass,
             Pass_View2:Hide_Pass,
             disableButton:true,
-            dark:true
+            dark:props.theme,
         }
+        }
+        change_theme = () => {
+            var dark = this.state.dark
+            Hide_Pass = !dark?Hide_Pass_Dark:Hide_Pass_Light
+            User_Check = !dark?User_Check_Dark:User_Check_Light
+            Verified_User =!dark?Verified_User_Dark:Verified_User_Light
+            var Pass_View1=this.state.Pass_View1;
+            var Pass_View2 = this.state.Pass_View2;
+            var User_Status = this.state.User_Status
+            this.setState({
+                dark:!this.state.dark,
+                Pass_View1:!(Pass_View1==Show_Pass)?Hide_Pass:Show_Pass,
+                Pass_View2:!(Pass_View2==Show_Pass)?Hide_Pass:Show_Pass,
+                User_Status:(User_Status==User_Check_Dark || User_Status==User_Check_Light)?User_Check:Verified_User
+            })
         }
         reset_fields = () => {
+            User_Check = this.state.dark?User_Check_Dark:User_Check_Light
             this.setState({
                 displaySignUpBox:'none',
-                User_Status:Userid_Check,
+                User_Status:User_Check,
                 result:'',
                 result2:'',
                 disableButton:false
             })
         }
         check_availability = () => {
+            Verified_User =this.state.dark?Verified_User_Dark:Verified_User_Light
             var len1=0
             var len2=0
             for (x in UO) {
@@ -61,11 +87,13 @@ export default class SignUp extends Component {
             if ((len1!=len2) && (len1!=0)) {
                 this.setState({result:messages[0]})
             } else if ((len1==len2) && (len1!=0)) {
-                this.setState({displaySignUpBox:'flex',result:messages[2], User_Status:Verified_UserId})
+                this.setState({displaySignUpBox:'flex',result:messages[2], User_Status:Verified_User})
             }
             this.setState({disableButton:true})
         }
         reset_results = () => {
+            var dark = this.state.dark
+            Hide_Pass = dark?Hide_Pass_Dark:Hide_Pass_Light
             this.setState({
                 result:'',
                 result2:''
@@ -73,6 +101,8 @@ export default class SignUp extends Component {
         }
 
         reset_field1 = () => {
+            var dark = this.state.dark
+            var Hide_Pass = dark?Hide_Pass_Dark:Hide_Pass_Light
             this.setState({
                 enablePass2:(String(this.state.password2).length==''),
                 Pass_View2:Hide_Pass,
@@ -87,6 +117,8 @@ export default class SignUp extends Component {
             }
         }
         reset_field2 = () => {
+            var dark = this.state.dark
+            var Hide_Pass = dark?Hide_Pass_Dark:Hide_Pass_Light
             this.setState({
                 enablePass1:(String(this.state.password).length==''),
                 Pass_View1:Hide_Pass,
@@ -113,6 +145,8 @@ export default class SignUp extends Component {
     
 
         signup_attempt = () => {
+            var dark = this.state.dark
+            var Hide_Pass = dark?Hide_Pass_Dark:Hide_Pass_Light
             if ((this.state.password) && (this.state.password2) && (this.state.name)) {
                 if (this.state.password==this.state.password2) {
                     Users[this.state.userid] = {"name":this.state.name, "pwd":this.state.password}
@@ -122,8 +156,8 @@ export default class SignUp extends Component {
                     this.add_first_task()
                     Alert.alert("Account Creation",'Hi '+ Users[this.state.userid].name + '!\nYour account was created successfully!'
                     ,[
-                        {text:'Ok!', onPress: () => this.setState({ name:'', userid:'', password:'', password2:'', displaySignUpBox:'none', enablePass1:true, enablePass2:true, showPass1:true, showPass2:true, result:'', result2:'', User_Status:Userid_Check, Pass_View1:Hide_Pass, Pass_View2:Hide_Pass})},
-                        {text:'Go to home', onPress: () => {this.props.setUserId(this.state.userid); this.props.signUp(false); this.props.goHome(true);alert('Click on the profile icon for more options!')}}
+                        {text:'Ok!', onPress: () => this.setState({ name:'', userid:'', password:'', password2:'', displaySignUpBox:'none', enablePass1:true, enablePass2:true, showPass1:true, showPass2:true, result:'', result2:'', User_Status:User_Check_Light, Pass_View1:Hide_Pass, Pass_View2:Hide_Pass})},
+                        {text:'Go to home', onPress: () => {this.props.setUserId(this.state.userid); this.props.signUp(); this.props.goHome(true);alert('Click on the profile icon for more options!')}}
                     ], {cancelable:true} )
                 } else {
                 this.setState({result2:messages[3]})
@@ -134,6 +168,8 @@ export default class SignUp extends Component {
         }
     render() {
         var dark = this.state.dark
+        var Back_Arrow= dark?Back_Arrow_Dark:Back_Arrow_Light
+        Hide_Pass = (dark?Hide_Pass_Dark:Hide_Pass_Light)
         var signupbox = StyleSheet.flatten([
             styles.userdetails,{
                 display:this.state.displaySignUpBox
@@ -153,19 +189,23 @@ export default class SignUp extends Component {
         var passwordbox = StyleSheet.flatten([
             styles.passwordbox, {backgroundColor:!dark?'lightgrey':'black'}
         ])
-
+        var inputpassword = StyleSheet.flatten([
+            styles.inputpassword, {
+                color:dark?'white':'black'
+            }
+        ])
 
         return(
 
             //Main Container 
-            <KeyboardAvoidingView style={[styles.mainbox, {backgroundColor:dark?'gray':'#eeeeee',  paddingTop:dark?0:20, marginTop:dark?20:0}]}  behavior={Platform.OS == "ios" ? "padding" : ""}>
+            <KeyboardAvoidingView style={[styles.mainbox, {backgroundColor:dark?'gray':'#008080',  paddingTop:dark?0:20, marginTop:dark?20:0}]}  behavior={Platform.OS == "ios" ? "padding" : ""}>
 
                 {/* Header for Sign Up */}
-                <View style={styles.header}>
-                    <TouchableHighlight activeOpacity={1} underlayColor="#0070bb" style={styles.backnavigation} onPress={()=> {this.props.signUp(false);}}>
+                <View style={[styles.header, {backgroundColor:dark?'#444444':'#eeeeee'}]}>
+                    <TouchableHighlight activeOpacity={1} underlayColor="#0070bb" style={styles.backnavigation} onPress={()=> {this.props.signUp();}}>
                         <Image style={styles.thumb} source={Back_Arrow} />
                     </TouchableHighlight>
-                    <Text style={styles.headertext}>Create Your Account!</Text>
+                    <Text style={[styles.headertext, {color:dark?'white':'black'}]}>Create Your Account!</Text>
                 </View>
 
                 <ScrollView style={{flex:1}} showsVerticalScrollIndicator={false}>
@@ -201,7 +241,7 @@ export default class SignUp extends Component {
                                 <View style={passwordbox}>
                                     {/* Field 1 */}
                                     <TextInput textContentType="newPassword" secureTextEntry={this.state.Pass_View1==Hide_Pass}
-                                        style={styles.inputpassword} placeholderTextColor={'gray'}
+                                        style={inputpassword} placeholderTextColor={'gray'}
                                         placeholder={'Enter Your Password Here!'} keyboardAppearance={dark?'dark':'light'}
                                         onChangeText={(password) => this.setState({password})}
                                         onChange={() => this.reset_field1()} ref={(input) => { this.newpass = input;}}
@@ -223,7 +263,7 @@ export default class SignUp extends Component {
                                 <View style={passwordbox}>
                                     {/* field 2 */}
                                     <TextInput textContentType="newPassword" secureTextEntry={this.state.Pass_View2==Hide_Pass}
-                                        style={styles.inputpassword} placeholderTextColor={'gray'}
+                                        style={inputpassword} placeholderTextColor={'gray'}
                                         placeholder={'Reenter Your Password Here!'} returnKeyType='join'                   
                                         onChangeText={(password2) => this.setState({password2})}
                                         onChange={() => this.reset_field2()} ref={(input) => { this.confpass = input;}}
@@ -249,7 +289,7 @@ export default class SignUp extends Component {
                     </View>
                 </ScrollView>
                 <View style={[styles.footerregion, {backgroundColor:dark?'#ffffff':'#000000'}]}>
-                    <TouchableHighlight style={styles.themebutton} underlayColor={dark?'#000000':'#ffffff'} onPress={()=>this.setState({dark:!dark})}>
+                    <TouchableHighlight style={styles.themebutton} underlayColor={dark?'#000000':'#ffffff'} onPress={()=>{this.change_theme();this.props.setTheme(!dark)}}>
                         <Text style={{padding:5, color:dark?'black':'white'}}>{dark?'LIGHT':'DARK'}</Text>
                     </TouchableHighlight>                 
                 </View>
@@ -271,11 +311,11 @@ const styles = StyleSheet.create({
     //header for signup
     header:
     {
-        marginTop:10,
         padding:5,
-        borderRadius:4,
         alignItems:'center',
-        flexDirection:'row'        
+        flexDirection:'row',
+        paddingTop:10,
+        borderBottomWidth:0.5,       
     },
     
     //Navigate Back button
@@ -296,7 +336,6 @@ const styles = StyleSheet.create({
         fontSize:25,
         flex:1,
         textAlign:'center',
-        color:'black',
         shadowRadius:3,
         shadowOpacity:0.4,
         shadowOffset:{height:0.1},

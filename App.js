@@ -6,16 +6,18 @@
 import React, {useState} from 'react';
 import { Text, View, TextInput, Platform, Image, KeyboardAvoidingView, Dimensions, TouchableOpacity, TouchableHighlight, StyleSheet, YellowBox, Alert, Button } from 'react-native';
 YellowBox.ignoreWarnings(['RootErrorBoundary']);
-YellowBox.ignoreWarnings(['Require cycle'])
 
 var ms = Dimensions.get('window')
 
 /*Importing Button Images */
-import Userid_Check from './assets/Userid_Check.png';
+import User_Check_Light from './assets/User_Check_Light.png';
+import User_Check_Dark from './assets/User_Check_Dark.png'
 import Show_Pass from './assets/Show_Pass.png';
 import Hide_Pass_Dark from './assets/Hide_Pass_Dark.png';
 import Hide_Pass_Light from './assets/Hide_Pass_Light.png'
-import Verified_Userid from './assets/Verified_UserId.png';
+import Verified_User_Light from './assets/Verified_User_Light.png';
+import Verified_User_Dark from './assets/Verified_User_Dark.png'
+
 
 /* Importing functions*/
 import UserHome from './userpages/UserHome';
@@ -36,7 +38,7 @@ export default function UserLogin() {
     /*List of State Variables*/
     let [count, setCount] = useState(0);     //Counter for unauthorised login attempt
     let [result, setResult] = useState('');    //login attempt messages [if needed]
-    let [useridCheckResult, setUseridCheckResult] = useState(Userid_Check);    // Image URI source for userid check
+    let [useridCheckResult, setUseridCheckResult] = useState(User_Check);    // Image URI source for userid check
     let [disableUserid, setDisableUserid] = useState(false);     //disables userid input if counter exceeds
     let [useridCheck, setUseridCheck] = useState(true);    // Checks if Userid is registered or not
     let [passBoxVisibility, setPassBoxVisibility] = useState('none');    //enables password box in case userid is registered
@@ -51,11 +53,23 @@ export default function UserLogin() {
     var pass = '';  //clears exisiting password if userid is changed
     var x;  //extracts key from JSON
     let Hide_Pass = dark?Hide_Pass_Dark:Hide_Pass_Light
-
+    let User_Check = dark?User_Check_Dark:User_Check_Light
+    let Verified_User = dark?Verified_User_Dark:Verified_User_Light
 
     const [useridEntered, setUseridEntered] = useState('');  //Takes Input for userid
     const [passwordEntered, setPasswordEntered] = useState('');   //Takes Input for password
     const [b, setB] = useState(5);  //for timer in case of repeated failed attempts
+
+
+    
+    function change_theme() {
+        setDark(!dark)
+        Hide_Pass = !dark?Hide_Pass_Dark:Hide_Pass_Light
+        User_Check = !dark?User_Check_Dark:User_Check_Light
+        Verified_User=!dark?Verified_User_Dark:Verified_User_Light
+        setViewPassword(viewPassword==Show_Pass?Show_Pass:Hide_Pass)
+        setUseridCheckResult((useridCheckResult==Verified_User_Dark||useridCheckResult==Verified_User_Light)?Verified_User:User_Check)
+    }
 
 /* verifying userid */
     function userid_check() {
@@ -67,7 +81,7 @@ export default function UserLogin() {
                         setUserId([x]);                
                         setRegisteredUserid('none');
                         setPassBoxVisibility('flex');
-                        setUseridCheckResult(Verified_Userid);
+                        setUseridCheckResult(Verified_User);
                         setCount(0);
                         setB(5);
                         z = 1;
@@ -77,13 +91,13 @@ export default function UserLogin() {
                 setCount(count + 1);
                 setResult(messages[0])
                 setPassBoxVisibility('none');
-                setUseridCheckResult(Userid_Check);
+                setUseridCheckResult(User_Check_Light);
             }
         } else {
             setResult(messages[1]);
             setCount(count + 1);
             setRegisteredUserid('flex');
-            setUseridCheckResult(Userid_Check);
+            setUseridCheckResult(User_Check_Light);
         }
 
         if (count > 2) {
@@ -113,7 +127,7 @@ export default function UserLogin() {
 if (signUp) {
     return (
         <View style={{flex:1}}>
-            <SignUp theme={dark} goHome={setGoHome} setUserId={setUserId} signUp={setSignUp} />
+            <SignUp theme={dark} setTheme={change_theme} goHome={setGoHome} setUserId={setUserId} signUp={reset_defaults} />
         </View>
     )
 }
@@ -142,7 +156,7 @@ if (goHome) {
     function reset_fields() {
         setPasswordEntered('');
         setPassBoxVisibility('none');
-        setUseridCheckResult(Userid_Check);
+        setUseridCheckResult(User_Check);
         setUseridCheck(true);
         setResult('');
         setGoHome(false);
@@ -152,10 +166,11 @@ if (goHome) {
     //default reset
     function reset_defaults() {
             setGoHome(false);
+            setSignUp(false);
             setUseridEntered('');
             setPasswordEntered('');
             setPassBoxVisibility('none');
-            setUseridCheckResult(Userid_Check);
+            setUseridCheckResult(User_Check);
             setUseridCheck(true);
             setResult('');
             setViewPassword(Hide_Pass);
@@ -166,11 +181,11 @@ if (goHome) {
 /*Main Return function */    
     return (
         //Main Container
-        <KeyboardAvoidingView style={[styles.mainbox, {backgroundColor:dark?'#333333':'#AAAAAA'}]} behavior={Platform.OS == "ios" ? "padding" : ""}>
+        <KeyboardAvoidingView style={[styles.mainbox, {backgroundColor:dark?'#333333':'#ffdddd'}]} behavior={Platform.OS == "ios" ? "padding" : ""}>
 
             {/*Body (Contain all login elements)*/}
             <View style={styles.bodybox}>
-                <View style={[styles.mainloginbox, {backgroundColor:dark?'#777777':'#AAAAAA'}]}>
+                <View style={[styles.mainloginbox, {backgroundColor:dark?'#777777':'#ddffff'}]}>
 
             {/*Heading Text*/}
                 <View style={[styles.headerlogin, {backgroundColor:dark?'#333333':'#367588'}]}>
@@ -178,7 +193,7 @@ if (goHome) {
                 </View>    
 
             {/*Userid Main Box*/}
-                    <View style={[styles.useridbox, {backgroundColor:dark?'#535353':'#AAAAAA'}]}> 
+                    <View style={[styles.useridbox, {backgroundColor:dark?'#535353':'#ffffdd'}]}> 
 
             {/*Userid Input (can be disabled)*/}
                         <TextInput editable={!disableUserid} style={styles.inputuserid}
@@ -194,7 +209,7 @@ if (goHome) {
                         <TouchableHighlight activeOpacity={1}
                             disabled={!useridCheck}
                             underlayColor="#0070bb" onPress={userid_check} style={styles.useridverify}>
-                                <Image style={styles.buttonthumbs} source={useridCheckResult} />
+                                <Image style={styles.buttonthumbs} source={(useridCheckResult==null?dark?User_Check_Dark:User_Check_Light:useridCheckResult)} />
                         </TouchableHighlight>
                     </View>
 
@@ -208,7 +223,7 @@ if (goHome) {
                         <View style={[styles.passwordbox, {backgroundColor:dark?'black':'lightgrey'}]}>
 
             {/*Password Input Box*/}
-                            <TextInput secureTextEntry={viewPassword==Hide_Pass} style={styles.inputpassword}
+                            <TextInput secureTextEntry={viewPassword==(dark?Hide_Pass_Dark:Hide_Pass_Light)} style={[styles.inputpassword, {color:dark?'white':'black'}]}
                                     placeholder={'Input Your Password Here!'} placeholderTextColor='grey'
                                     onChangeText={passwordEntered => setPasswordEntered(passwordEntered)}
                                     defaultValue={passwordEntered} returnKeyType='done' keyboardAppearance={dark?'dark':'light'}
@@ -236,7 +251,7 @@ if (goHome) {
                 </View>
             </View>
             <View style={[styles.footerregion, {backgroundColor:dark?'#ffffff':'#000000'}]}>
-                <TouchableHighlight style={styles.themebutton} underlayColor={dark?'#000000':'#ffffff'} onPress={()=>setDark(!dark)}>
+                <TouchableHighlight style={styles.themebutton} underlayColor={dark?'#000000':'#ffffff'} onPress={()=>change_theme()}>
                     <Text style={{padding:5, color:dark?'black':'white'}}>{dark?'LIGHT':'DARK'}</Text>
                 </TouchableHighlight>                 
             </View>
@@ -331,7 +346,7 @@ const styles = StyleSheet.create({
         height:35,
         width:35,
         borderRadius:17.5,
-        shadowOpacity:0.7,
+        shadowOpacity:0.4,
         elevation:3,
         shadowRadius:2,
     },
@@ -364,7 +379,6 @@ const styles = StyleSheet.create({
     inputpassword:{
         justifyContent:'flex-start',
         width:Dimensions.get('window').width*7.5/9 - 55,
-        color:'white',
         borderTopLeftRadius:4,
         borderBottomLeftRadius:4,       
     },
