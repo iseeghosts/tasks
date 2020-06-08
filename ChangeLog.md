@@ -97,5 +97,5 @@ All short variables as abcd
 - (new) dark and light theme
 - (added feature) different icons for dark and light theme
 - (fixed) numerous issues with rendering with dark and light themes
-- (added feature) option for always show search [more details](/docs/search/readme.md#home-screen##always-show-search-mode)
+- (added feature) option for always show search [more details](/docs/search/readme.md#overview##always-show-search-mode)
 
