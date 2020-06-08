@@ -90,12 +90,12 @@ All short variables as abcd
 - (added feature) - Footer displaying number of results
 - (fixed) numerous issues with showing results
 - (added support) searching in recycle bin
-- (added feature) shortcuts for searching [more details](/docs/search/readme.md#overview##options-and-shortcuts-for-search)
+- (added feature) shortcuts for searching [more details](/docs/search/readme.md#options-and-shortcuts-for-search)
 - (added feature) searching in Recycle Bin
 - (added feature) a header indicating whether user is in recycle bin or not
 - (added feature) all other options will disappear when focusing on search
 - (new) dark and light theme
 - (added feature) different icons for dark and light theme
 - (fixed) numerous issues with rendering with dark and light themes
-- (added feature) option for always show search [more details](/docs/search/readme.md#overview##always-show-search-mode)
+- (added feature) option for always show search [more details](/docs/search#always-show-search-mode)
 
