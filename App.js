@@ -81,16 +81,14 @@ export default function UserLogin() {
     function userid_check() {
         setUseridCheck(false);
         var z = 0;
-        for (x in Users) {
-            if ([x] == useridEntered) {     //userid is true
-                setUserId([x]);                
-                setRegisteredUserid('none');
-                setPassBoxVisibility('flex');
-                setUseridCheckResult(Verified_User);
-                setCount(0);
-                setB(5);
-                z = 1;
-            }
+        if (useridEntered in Users) {     //userid is true
+            setUserId(useridEntered);                
+            setRegisteredUserid('none');
+            setPassBoxVisibility('flex');
+            setUseridCheckResult(Verified_User);
+            setCount(0);
+            setB(5);
+            z = 1;
         }
         if (z==0) {             //userid not registered
             setRegisteredUserid('flex');
@@ -196,10 +194,10 @@ if (goHome) {
                     </View>    
 
     {/* A - 1 - A - 2 - userid Main Box*/}
-                    <View style={[styles.useridbox, {backgroundColor:dark?'#535353':'#ffffdd'}]}> 
+                    <View style={[styles.useridbox, {backgroundColor:dark?'#333333':'#ffffdd'}]}> 
 
     {/* A - 1 - A - 2 - A - userid Input (can be disabled)*/}
-                        <TextInput editable={!disableUserid} style={styles.inputuserid}
+                        <TextInput editable={!disableUserid} style={[styles.inputuserid, {color:dark?'#ffffff':'#000000'}]}
                             placeholder={'Please enter your user id...'}
                             onChangeText={useridEntered=>setUseridEntered(useridEntered)}
                             returnKeyType='go' placeholderTextColor='gray'
@@ -256,7 +254,7 @@ if (goHome) {
                     </View>
 
     {/* A - 1 - A - 5 - button for signing up if the user is not registered and is interested []*/}
-                    <View style={[styles.signupbox, {backgroundColor:dark?'#555555':'#C9C9C9'}]}>
+                    <View style={[styles.signupbox, {backgroundColor:dark?'#777777':'#C9C9C9'}]}>
 
     {/* A - 1 - A - 5 - A - text for sign up */}
                         <Text>Don't have any account with us yet?</Text>
@@ -264,7 +262,7 @@ if (goHome) {
                         <TouchableOpacity style={styles.signupbutton} onPress={() => setSignUp(true)}>
     
     {/* A - 1 - A - 5 - B - 1 - signup button text*/}
-                            <Text style={[styles.signupbuttontext, {color:dark?'green':'darkred'}]}>sign up!</Text>                                
+                            <Text style={[styles.signupbuttontext, {color:dark?'#ffffdd':'darkred'}]}>sign up!</Text>                                
                         </TouchableOpacity>
                     </View>
                 </View>

@@ -54,17 +54,17 @@ export default class SignUp extends Component {
         var Hide_Pass = props.theme?Hide_Pass_Dark:Hide_Pass_Light
         var User_Check = props.theme?User_Check_Dark:User_Check_Light
         var Verified_User = props.theme?Verified_User_Dark:Verified_User_Light
-        var presignup = props.id!='' && UO[props.id]!=null
+        var presignup = props.id!='' && !(props.id in UO)
         super()
         this.state = {
             name:'',          //user's name
-            userid:props.id,  //user's id
+            userid:presignup?props.id:'',  //user's id
             password:'',      //user's password
             password2:'',     //confirm password
             displaySignUpBox:presignup?'flex':'none',   //display all field after validating userid
             enablePass1:true,       //true to disable show password when editing another field 
             enablePass2:true,       //true to disable show password when editing another field
-            result:'',              //userid availability messages
+            result:presignup?messages[2]:'',              //userid availability messages
             result2:'',             //signup attempt messages
             disableButton:!presignup,     //check userid availability 
             dark:props.theme,       //set theme
