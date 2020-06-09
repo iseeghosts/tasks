@@ -30,7 +30,7 @@ export default class AllTasks extends Component {
                 Alert.alert('Delete?', "Are you sure you want to delete the task '" + this.state.task + "'?", [{text:'Confirm', onPress: () => {
                     this.setState({deletedTask:true});
                     this.props.task.deleted=true;
-                    }}, {text:'Deny',}], {cancelable:true} ) 
+                    }, style:'destructive'}, {text:'Deny',}], {cancelable:true} ) 
             } else {
                 this.props.task.deleted=true;
                 this.setState({deletedTask:true});
@@ -45,7 +45,7 @@ export default class AllTasks extends Component {
                 this.permanent_delete_task()
                 this.setState({permdisp:false})
                 //this.props.del()
-            }}, {text:'Cancel'}], {cancelable:true}) 
+            }, style:'destructive'}, {text:'Cancel'}], {cancelable:true}) 
         }
         permanent_delete_task = () => {
             var i = 0, id = this.props.id

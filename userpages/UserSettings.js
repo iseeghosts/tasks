@@ -186,7 +186,7 @@ export default class UserSettings extends Component {
     modify_ass = () => {
         AppData[this.props.id].alwaysshowsearch=(!this.state.ass);
         this.setState({ass:!this.state.ass});
-        alert('Always show search '+ ass?'enabled!':'disabled!')
+        alert('Always show search '+ (!this.state.ass?'enabled!':'disabled!'))
     }
 
     //display account deletion request field
@@ -205,7 +205,8 @@ export default class UserSettings extends Component {
             this.props.close();
             alert('Account Deleted Successfully!')
             delete Users[id];
-        }
+        }, style:'destructive'
+
     }, {text:'No',}], {cancelable:true} )
     else alert('Incorrect Password!')
     }

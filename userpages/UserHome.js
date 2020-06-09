@@ -7,6 +7,9 @@
 import React, {Component} from 'react'
 import {View, Text, FlatList, Platform, Dimensions, StyleSheet, KeyboardAvoidingView, TextInput, Image} from 'react-native'
 
+/* for future */
+// import { Appearance, AppearanceProvider, useColorScheme } from 'react-native-appearance';
+
 //importing components
 import AllTasks from '../components/AllTasks'               //All Tasks
 import WelcomeUser from '../components/WelcomeUser'         //Header for logged in user [View Profile] - incomplete, [settings] - incomplete
@@ -26,13 +29,15 @@ import AppData from '../appdata.json'
 //screen dimensions
 var ms = Dimensions.get('window');
 
+
+// console.log(newtheme)
 //header text
 var header = ''
 
- /*This is the User Home Component - accessible after user inputs correct id and password*/
+/*This is the User Home Component - accessible after user inputs correct id and password*/
 
  //Starts export
- export default class UserHome extends Component{
+export default class UserHome extends Component{
     
     //Initializing initial states of the system
     constructor(props) {
@@ -46,6 +51,7 @@ var header = ''
             po:false,
             rbo:false,
             mytask:Tasks[props.id],
+            color:'light'
         }
     }
 
@@ -71,8 +77,6 @@ var header = ''
     //flatlist header (or footer if flatlist is inverted)
     task_header = () => {
         AppData[this.props.id].SearchResultFound=0
-        var search = this.state.search.toLowerCase()
-        header = (search.slice(0,8)==('@deleted')?'Recycle Bin':'Tasks')
         return( null
 
         )
@@ -118,8 +122,24 @@ var header = ''
         )
     }
 
-    render () {   
+    render () {
 
+        //setting a short text variable for repeatedly used long variable text
+        const id = this.props.id
+        let theme = AppData[this.props.id].theme
+        let dark = theme=='dark'
+        let ass = AppData[this.props.id].alwaysshowsearch
+        
+  /* for future
+      AppData[id].theme= Appearance.getColorScheme()
+        // console.log("userhome - " + Appearance.getColorScheme())
+
+        let colorScheme = Appearance.getColorScheme();
+
+        let subscription = Appearance.addChangeListener(( colorScheme ) => {this.setState(color)});
+        subscription.remove();
+        // alert(this.state.color)
+*/
         //go to usersettings component if true
         if (this.state.openSettings) {
             return (
@@ -129,13 +149,14 @@ var header = ''
             )
         }
 
-        //setting a short text variable for repeatedly used long variable text
-        const id = this.props.id
-        let theme = AppData[this.props.id].theme
-        let dark = theme=='dark'
-        let ass = AppData[this.props.id].alwaysshowsearch
-
         /* StyleSheet Mods */
+        var header = StyleSheet.flatten([
+            styles.taskheader,
+            {
+                backgroundColor:dark?'#77777750':'#ffffff50',
+                display:this.state.rbo?'flex':'none',
+            }
+        ])
         var taskheadertext = StyleSheet.flatten([
             styles.taskheadertext, {
                 color:(AppData[this.props.id].theme=='dark'?'white':'black'),
@@ -152,7 +173,7 @@ var header = ''
                 <View style={styles.firstcontainer}>
 
         {/* A - 1 - A - userheader containg search and welcome user */}
-                    <View style={[styles.userheader,{flexDirection:this.state.po?'column':'row', backgroundColor:theme=='dark'?'#919191':'snow'}]}>
+                    <View style={[styles.userheader,{flexDirection:this.state.po?'column':'row', backgroundColor:theme=='dark'?'#919191bb':'#a7b8d455'}]}>
 
         {/* A - 1 - A - 1 -  */}
                         <View style={{display:this.state.dis}}>
@@ -162,7 +183,7 @@ var header = ''
                         </View>
 
         {/* A - 1 - A - 2 - search box */}
-                        <View style={[styles.searchbox, {flex:this.state.po?0:1, display: ( ass || !this.state.po) ?'flex':"none" ,backgroundColor:theme=='dark'?'gray':'#00808050'}]}>
+                        <View style={[styles.searchbox, {flex:this.state.po?0:1, display: ( ass || !this.state.po) ?'flex':"none", backgroundColor:dark?'#909090':'#87ceeb77'}]}>
         
         {/* A - 1 - A - 2 - A - search icon */}
                             <Image style={styles.searchicon} source={dark?Search_Icon_Dark:Search_Icon_Light} />
@@ -176,10 +197,10 @@ var header = ''
                     </View>
         
         {/* A - 1 - B - header for all tasks the header variable is decided from task_header function */}
-                    <View style={styles.taskheader}>
+                    <View style={header}>
         
         {/* A - 1 - B - 1 - header text */}
-                        <Text style={taskheadertext}>{header}</Text>
+                        <Text style={taskheadertext}>Recycle Bin</Text>
                     </View>
         
         {/* A - 1 - C - flatlist container */}        
@@ -211,6 +232,10 @@ const styles = StyleSheet.create({
     taskheader:
     {
         alignItems:'center',
+        borderRadius:4,
+        margin:5,
+        justifyContent:'center',
+        padding:2
     },
 
     //styles for flatlist header text
@@ -223,6 +248,7 @@ const styles = StyleSheet.create({
     taskfooter:
     {
         alignItems:'center',
+        paddingTop:5,
     },
 
     //flatlist footer text
@@ -274,8 +300,8 @@ const styles = StyleSheet.create({
     //search icon styles
     searchicon:
     {
-        height:25,
-        width:25,
+        height:30,
+        width:30,
         opacity:0.5,
     },
 
@@ -292,3 +318,11 @@ const styles = StyleSheet.create({
         height:0.001,
     },
 })
+
+
+/* for future */
+// export default (props) => (
+//     <AppearanceProvider>
+//         <UserHome close={props.close} id={props.id}/>
+//     </AppearanceProvider>
+// )

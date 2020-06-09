@@ -5,12 +5,12 @@
 
 /* importing required modules */
 import React, {useState} from 'react';
-import { Text, View, TextInput, Platform, Image, KeyboardAvoidingView, Dimensions, TouchableOpacity, TouchableHighlight, StyleSheet, YellowBox, Keyboard} from 'react-native';
+import { Text, View, TextInput, Platform, Image, KeyboardAvoidingView, TouchableOpacity, TouchableHighlight, StyleSheet, YellowBox, Keyboard} from 'react-native';
+import { Appearance, AppearanceProvider, useColorScheme } from 'react-native-appearance';
 YellowBox.ignoreWarnings(['RootErrorBoundary']);
 
+var theme = false
 //variable for screen dimensions if needed
-var ms = Dimensions.get('window')
-
 /*importing Button Images */
 import Show_Pass from './assets/Show_Pass.png';
 import User_Check_Light from './assets/User_Check_Light.png';
@@ -37,7 +37,10 @@ export default function UserLogin() {
     /*   Unused Variables for future Usage*
     let [goBack, setGoBack] = useState(false);
     */
-
+//    setting home theme same as device
+    let colorScheme = Appearance.getColorScheme();
+    theme=(colorScheme==='dark')
+    
     /*List of State Variables*/
     let [count, setCount] = useState(0);                                    //counter for unauthorised login attempt
     let [result, setResult] = useState('');                                 //login attempt messages [if needed]
@@ -47,14 +50,10 @@ export default function UserLogin() {
     let [passBoxVisibility, setPassBoxVisibility] = useState('none');       //enables password box in case userid is registered
     let [registeredUserid, setRegisteredUserid] = useState('none');         //enables visibility of login messages if needed.
     let [viewPassword, setViewPassword] = useState(Hide_Pass);              //image URI source for Password View
-    let [goHome, setGoHome] = useState(false);                              //goes to Home Screen if true
-    let [userid, setUserId] = useState('');                                 //sets userid if entered id is valid
+    let [goHome, setGoHome] = useState(true);                              //goes to Home Screen if true
+    let [userid, setUserId] = useState('id1');                                 //sets userid if entered id is valid
     let [signUp, setSignUp] = useState(false);                              //allows signing up
-    let [dark, setDark] = useState(false);                                  //sets theme for userlogin
-
-    
-    
-    var x;                                                                  //extracts key from JSON
+    let [dark, setDark] = useState(theme);                                  //sets theme for userlogin
     
     //set theme specific icons
     let Hide_Pass = dark?Hide_Pass_Dark:Hide_Pass_Light                     
@@ -64,7 +63,6 @@ export default function UserLogin() {
     const [useridEntered, setUseridEntered] = useState('');         //takes Input for userid
     const [passwordEntered, setPasswordEntered] = useState('');     //takes Input for password
     const [b, setB] = useState(5);                                  //for timer in case of repeated failed attempts
-
 
 /* changing theme */  
     function change_theme() {
@@ -134,7 +132,7 @@ if (signUp) {
 
 /*home Screen */
 if (goHome) {
-    alert('Welcome' + Users[userid].name+'!')
+    // alert('Welcome ' + Users[userid].name+'!')
     return(
         <View style={{flex:1}}>
             <UserHome close={reset_defaults} id={userid}/>
@@ -200,7 +198,7 @@ if (goHome) {
 
     {/* A - 1 - A - 2 - A - userid Input (can be disabled)*/}
                         <TextInput textContentType="username" defaultValue={useridEntered}
-                            onEndEditing={()=>userid_check()} returnKeyType='go'
+                            onEndEditing={()=>userid_check()} returnKeyType='go' placeholderTextColor='gray'
                             style={[styles.inputuserid, {color:dark?'#ffffff':'#000000'}]}
                             autoCapitalize='none' placeholder={'Please enter your user id...'}
                             onChangeText={(useridEntered)=>setUseridEntered(useridEntered)}

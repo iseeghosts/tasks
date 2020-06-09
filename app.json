@@ -9,6 +9,7 @@
     ],
     "version": "0.0.2",
     "orientation": "portrait",
+    "userInterfaceStyle":"automatic",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/icon.png",
@@ -23,7 +24,11 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "requireFullScreen":true
+      "requireFullScreen":true,
+      "userInterfaceStyle":"automatic"
+    },
+    "android":{
+      "userInterfaceStyle":"automatic"
     },
     "androidStatusBar": {
       "hidden":true
