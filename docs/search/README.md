@@ -1,7 +1,7 @@
 # OverView
 Search seamlessly using search in your tasks with cheats
 
-![search demo](../../files/active development/search/light-default.gif)
+![search demo](../../files/search/light-default.gif)
 
 ## Always Show Search Mode
 In general, your search bar can hide under expanded User Options, but this can be changed in always show search mode
@@ -16,13 +16,13 @@ If Always Show Search Mode Is Disabled & Profile Options are not expanded
 If Always Show Search Mode Is Disabled & Profile Options are expanded
 
 
-<img src="../../files/active development/userhome/light-profile-expanded.png">
+<img src="../../files/userhome/light-profile-expanded.png">
 
 
 If Always show search mode is enabled and Profile Options are expanded
 
 
-<img src="../../files/active development/userhome/light-ass-true.png">
+<img src="../../files/userhome/light-ass-true.png">
 
 
 ## How to access search
@@ -35,14 +35,14 @@ If Always show search mode is enabled and Profile Options are expanded
 Search comes with certain cheats for user convenience
 
 ### filtering results
-- adding @complete follwed by space, before the search term shows results for only completed tasks,
-- similarly adding @incomplete follwed by space, before the search term shows results for only incomplete tasks,
+- adding @complete follwed by space, before the search term shows results for only completed tasks
+- similarly adding @incomplete follwed by space, before the search term shows results for only incomplete tasks
 - searching for @empty shows empty tasks
 
 
-![search shortcut demo](../../files/active development/search/light-shortcut-search.gif)
+![search shortcut demo](../../files/search/light-shortcut-search.gif)
 
 
 ### Accessing Recycle Bin
 - Recycle Bin can be accessed by typing @deleted
-- filtering works in Recycle Bin too, for example you can type '@deleted @incomplete abc' to look for a completed task containing string abc in Recycle Bin
+- filtering works seamlessly with Recycle Bin too, [learn how](../recyclebin#search-in-recycle-bin)

@@ -5,7 +5,7 @@
 
 /* importing required modules */
 import React, {useState} from 'react';
-import { Text, View, TextInput, Platform, Image, KeyboardAvoidingView, Dimensions, TouchableOpacity, TouchableHighlight, StyleSheet, YellowBox} from 'react-native';
+import { Text, View, TextInput, Platform, Image, KeyboardAvoidingView, Dimensions, TouchableOpacity, TouchableHighlight, StyleSheet, YellowBox, Keyboard} from 'react-native';
 YellowBox.ignoreWarnings(['RootErrorBoundary']);
 
 //variable for screen dimensions if needed
@@ -190,21 +190,23 @@ if (goHome) {
 
     {/* A - 1 - A - 1 - login Header*/}
                     <View style={[styles.headerlogin, {backgroundColor:dark?'#333333':'#367588'}]}>
-                        <Text style={styles.headerlogintext}>let's get you signed in!</Text>
+
+    {/* A - 1 - A - 1 - A - login header text */}
+                        <Text onPress={Keyboard.dismiss} style={styles.headerlogintext}>let's get you signed in!</Text>
                     </View>    
 
     {/* A - 1 - A - 2 - userid Main Box*/}
                     <View style={[styles.useridbox, {backgroundColor:dark?'#666666':'#ffffdd'}]}> 
 
     {/* A - 1 - A - 2 - A - userid Input (can be disabled)*/}
-                        <TextInput editable={!disableUserid} style={[styles.inputuserid, {color:dark?'#ffffff':'#000000'}]}
-                            placeholder={'Please enter your user id...'}
-                            onChangeText={useridEntered=>setUseridEntered(useridEntered)}
-                            returnKeyType='go' placeholderTextColor='gray'
-                            autoCapitalize='none' keyboardAppearance={dark?'dark':'light'}
-                            onChange={reset_fields} textContentType="username"
-                            onSubmitEditing={userid_check}
-                            defaultValue={useridEntered} />
+                        <TextInput textContentType="username" defaultValue={useridEntered}
+                            onEndEditing={()=>userid_check()} returnKeyType='go'
+                            style={[styles.inputuserid, {color:dark?'#ffffff':'#000000'}]}
+                            autoCapitalize='none' placeholder={'Please enter your user id...'}
+                            onChangeText={(useridEntered)=>setUseridEntered(useridEntered)}
+                            editable={!disableUserid} enablesReturnKeyAutomatically={true}
+                            onChange={()=>reset_fields()} keyboardAppearance={dark?'dark':'light'}
+                            />
 
     {/* A - 1 - A - 2 - B - userid check button [userid_check] (with disable and variable image uri)*/}
                         <TouchableHighlight activeOpacity={1}
@@ -212,7 +214,7 @@ if (goHome) {
                             onPress={userid_check} style={styles.useridverify}>
 
     {/* A - 1 - A - 2 - B - 1 - userid check button icon*/}
-                                <Image style={styles.buttonthumbs} source={(useridCheckResult==null?dark?User_Check_Dark:User_Check_Light:useridCheckResult)} />
+                            <Image style={styles.buttonthumbs} source={(useridCheckResult==null?dark?User_Check_Dark:User_Check_Light:useridCheckResult)} />
                         </TouchableHighlight>
                     </View>
 
@@ -238,17 +240,17 @@ if (goHome) {
                                 activeOpacity={1}underlayColor={'#747474'}
                                 onPress={password_visibility} style={styles.passwordview}>
 
-    {/* A - 1 - A - 4 - B - 2 -A - icon for password view button */}
+    {/* A - 1 - A - 4 - A - 2 - A - icon for password view button */}
                                 <Image style={styles.buttonthumbs} source={viewPassword} />
                             </TouchableOpacity>
                         </View>
 
-    {/* A - 1 - A - 4 - A - 1 - B - button to submit password [login_attempt] (shares the visibility criteria same as password box)*/}
+    {/* A - 1 - A - 4 - B - button to submit password [login_attempt] (shares the visibility criteria same as password box)*/}
                         <TouchableOpacity
                             style={[styles.submitbutton, {backgroundColor:dark?'#444444':'#000044'}]}
                             underlayColor="#000" onPress={login_attempt}>
 
-    {/* A - 1 - A - 4 - A - 1 - B - 1 - password submit text */}
+    {/* A - 1 - A - 4 - B - 1 - password submit text */}
                             <Text style={styles.submitbuttontext}>submit</Text>                            
                         </TouchableOpacity>
                     </View>
@@ -257,7 +259,8 @@ if (goHome) {
                     <View style={[styles.signupbox, {backgroundColor:dark?'#777777':'#C9C9C9'}]}>
 
     {/* A - 1 - A - 5 - A - text for sign up */}
-                        <Text>Don't have any account with us yet?</Text>
+                        <Text on onPress={Keyboard.dismiss}>Don't have any account with us yet?</Text>
+                        
     {/* A - 1 - A - 5 - B - signup button */}
                         <TouchableOpacity style={styles.signupbutton} onPress={() => setSignUp(true)}>
     
