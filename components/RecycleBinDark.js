@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         borderRadius:5,
         shadowRadius:7,
         shadowOpacity:1,
-        elevation:5,
+        elevation:2,
         shadowOffset:{height:0.1},
         flexDirection:'row',
         height:ms.height*1/14,

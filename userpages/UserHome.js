@@ -204,11 +204,11 @@ export default class UserHome extends Component{
                     </View>
         
         {/* A - 1 - C - flatlist container */}        
-                    <FlatList style={{flex:1}} inverted ref={ref => this.flatList = ref} ListHeaderComponent={this.task_header}
+                    <FlatList style={{flex:1}} ref={ref => this.flatList = ref} ListHeaderComponent={this.task_header}
                         ListFooterComponent={this.task_footer} ListFooterComponentStyle={styles.taskfooter}
-                        showsVerticalScrollIndicator={false} contentInset={{top:65}} onLayout={()=> this.flatList.scrollToEnd({animated:true})}
+                        showsVerticalScrollIndicator={false} contentInset={{bottom:65}} onLayout={()=> this.flatList.scrollToEnd({animated:true})}
                         onContentSizeChange={()=>{this.flatList.scrollToEnd({animated:true});this.setState({mytask:Tasks[id]})}}
-                        data={this.state.mytask.sort((a, b) => a.status.localeCompare(b.status))}
+                        data={this.state.mytask.sort((a, b) => b.status.localeCompare(a.status))}
                         renderItem={({item}) => <AllTasks resetlook={()=>{this.setState({mytask:Tasks[id]});this.flatList.scrollToEnd({animated:true})}}
                         task={item} id={id} search={this.state.search} />} keyExtractor={item => item.key.toString()} />
                 </View>

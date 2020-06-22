@@ -26,6 +26,7 @@ export default class SavedNote extends Component{
     //Initial State
     constructor (props) {
         k = props.task.content!=''?(props.task.content.charCodeAt(0)+1)%6:6
+        var color = props.task.status=="Complete"? '#ffd700dd':colors[k]
         // console.log(k)     
         super()
             this.state = ({
@@ -36,8 +37,8 @@ export default class SavedNote extends Component{
                 markDoneDisable:(props.task.content==''),          //adds abiility to prevent marking empty notes as done
                 deleteDisable:false,
 
-                backColor:(props.task.status=="Complete"? '#ffd700dd':colors[k]), 
-                backColorTaskBox:(props.task.content==''? '#C0C0C0DD':'transparent'),
+                backColor:color, 
+                backColorTaskBox:(props.task.content==''? '#C0C0C0DD':color),
                 disableEditButton:(props.task.status=="Complete"),
                 task:props.task.content,                                        //temporararily stores task details passed from UserHome.js => ./../userpages/UserHome.js
             })
@@ -64,7 +65,7 @@ export default class SavedNote extends Component{
                 'markDoneDisable': (this.state.task=='' || !this.state.enableEditing),
                 'Edit_Status': (this.state.enableEditing? Edit_Task:Edit_Done),
                 'enableEditing': (!this.state.enableEditing),
-                'backColorTaskBox': (this.state.enableEditing ? 'transparent':'#C0C0C0DD'),
+                'backColorTaskBox': (this.state.enableEditing ? colors[k]:'#C0C0C0DD'),
                 'borderLine': (this.state.enableEditing ? 0:1),
                 'deleteDisable': !this.state.enableEditing,
                 backColor:colors[k]
@@ -100,8 +101,13 @@ export default class SavedNote extends Component{
 
         var inputtask = StyleSheet.flatten([
             styles.taskbox, {
-                backgroundColor:this.state.backColorTaskBox,
+                backgroundColor:this.state.Task_Status==Task_Done?'#ffd700dd':this.state.backColorTaskBox,
                 flex:this.state.Task_Status==Task_Done?7:6
+            }
+        ])
+        var colors = StyleSheet.flatten([
+            {
+                backgroundColor:this.state.backColor
             }
         ])
 
@@ -110,13 +116,13 @@ export default class SavedNote extends Component{
             <View style={mainbox}>
                 {/* {child} this button allows to change task status [change_status], has a variable image uri Task_Status*/}
                 
-                <View style={styles.infobox}>
+                <View style={[styles.infobox, colors]}>
                     <TouchableHighlight underlayColor='#7C0A02' onPress={() => this.task_details()} style={styles.detailsbutton}>
                         <Image source={Details_Icon}style={styles.logo} />
                     </TouchableHighlight>
                 </View>
 
-                <View style={styles.taskstatusbox}>
+                <View style={[styles.taskstatusbox, colors]}>
                     <TouchableHighlight activeOpacity={0} underlayColor={this.state.backColor} disabled={this.state.markDoneDisable} onPress={() => this.change_status()} style={styles.taskdone}>
                         <Image source={this.state.Task_Status} style={styles.logo} /> 
                     </TouchableHighlight>
@@ -129,7 +135,7 @@ export default class SavedNote extends Component{
                 {/* </View> */}
 
                 {/* {child} this button allows the task to be modified [edit_task], has a variable image uri Edit_Status */}
-                <TouchableOpacity disabled={this.state.Task_Status==Task_Done || content==''} underlayColor="#000"  style={[styles.edittextbox, {display:this.state.Task_Status==Task_Done?'none':'flex'}]} onPress={ () => this.edit_task()}>
+                <TouchableOpacity disabled={this.state.Task_Status==Task_Done || content==''} underlayColor="#000"  style={[styles.edittextbox, colors, {display:this.state.Task_Status==Task_Done?'none':'flex'}]} onPress={ () => this.edit_task()}>
                     <Image source={this.state.Edit_Status} style={styles.logo} />                            
                 </TouchableOpacity>
 
@@ -159,7 +165,7 @@ const styles = StyleSheet.create({
         elevation:5,
         shadowOffset:{height:0.1},
         flexDirection:'row',
-        height:ms.height*1/14,
+        height:45,
         marginHorizontal:ms.width*1/40,
     },
 
@@ -168,6 +174,7 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:"center",
         flex:1,
+        borderRadius:5,
     },
 
     //button for infobox

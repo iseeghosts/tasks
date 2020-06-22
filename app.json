@@ -29,9 +29,6 @@
     },
     "android":{
       "userInterfaceStyle":"automatic"
-    },
-    "androidStatusBar": {
-      "hidden":true
     }
   }
 }

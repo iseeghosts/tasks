@@ -74,6 +74,8 @@ Tasks app comes with dark/light theme mode and can be changed from settings
 
 <img src="./files/usersettings/dark-default.png">
 
+# Future
+- Introduce adaptibility with system theme
 
 
 # Note

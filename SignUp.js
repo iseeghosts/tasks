@@ -241,16 +241,19 @@ export default class SignUp extends Component {
             }
         ])
         var passwordbox = StyleSheet.flatten([
-            styles.useridbox, {backgroundColor:dark?'#000000aa':'#ffffddaa'}
+            styles.useridbox,
+            {
+                backgroundColor:dark?'#000000':'#ffffdd'
+            }
         ])
         var inputpassword = StyleSheet.flatten([
             styles.inputuserid, {
-                color:dark?'#ffffff':'#000000'
+                color:dark?'#ffffff':'#000000',
             }
         ])
         var passwordverifybutton = StyleSheet.flatten([
             styles.useridverifybutton, {
-                marginHorizontal:5
+                marginHorizontal:5,
             }
         ])
         /* end of stylesheet mods*/
