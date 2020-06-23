@@ -22,7 +22,7 @@ Watch a login or signup with no distractions in action, with an ambitious home-s
 Search seamlessly through all your tasks with an inituitive search.
 # <p align="center">
 ![Search Demo](./files/search/light-default.gif)
-# </p>
+</p>
 [more about the search](./docs/search)
 
 ### Recycle Bin Support
