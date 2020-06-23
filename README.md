@@ -25,7 +25,7 @@ Search seamlessly through all your tasks with an inituitive search.
 ![Search Demo](./files/search/light-default.gif)
   
 [more about the search](./docs/search)
-#</p>
+</p>
 
 ### Recycle Bin Support
 Tasks App comes with a recycle bin support!
@@ -35,7 +35,7 @@ See it in action below -
 ![Recycle Bin Demo](./files/recyclebin/light-rbo.gif)
   
 [more about the recycle bin](./docs/recyclebin)
-#</p>
+</p>
 
 ### Dark/light Theme Support
 Tasks app comes with dark/light theme mode and can be changed from settings
