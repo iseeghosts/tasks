@@ -14,15 +14,16 @@ Watch a login or signup with no distractions in action, with an ambitious home-s
 <img height=647 width=375 align="center" src="./files/usersignup/light-default.png">
 
 
+
 <img height=647 width=375 align="left" src="./files/userhome/light-default.png">
 <img height=647 width=375 align="center" src="./files/usersettings/light-default.png">
 
 ### Search and Recycle Bin Support for Tasks
 Search seamlessly through all your tasks with an inituitive search.
-
+# <p align="center">
 ![Search Demo](./files/search/light-default.gif)
-
 [more about the search](./docs/search)
+# </p>
 
 ### Recycle Bin Support
 Tasks App comes with a recycle bin support!
