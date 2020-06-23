@@ -6,14 +6,12 @@ A simple task keeping app, written in react native for android and iOS devices
 ## Features
 
 ### Minimal UI
-Watch a login or signup with no distractions in action
+Watch a login or signup with no distractions in action, with an ambitious home screen
 
 <img height=647 width=375 align="left" src="./files/userlogin/light-default.png">
 <img height=647 width=375 align="right" src="./files/usersignup/light-default.png">
-
-Cleaner home screen, you will find only what you need
-
-<img height=647 width=375 align="center" src="./files/userhome/light-default.png">
+<img height=647 width=375 align="left" src="./files/userhome/light-default.png">
+<img height=647 width=375 align="right" src="./files/usersettings/light-default.png">
 
 ### Search Support for Tasks
 Search seamlessly through all your tasks with an inituitive search.
