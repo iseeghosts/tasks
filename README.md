@@ -1,6 +1,6 @@
 # Tasks App
 
-<img height=647 width=375 src="./assets/splash.png"/>
+<img align="center" src="./assets/splash.png"/>
 
 ## About
 A simple task keeping app, written in react native for android and iOS devices
