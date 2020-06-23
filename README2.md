@@ -7,21 +7,27 @@ A simple task keeping app, written in react native for android and iOS devices
 
 ### Minimal UI
 Watch a login or signup with no distractions in action
+
 <img height=647 width=375 align="left" src="./files/userlogin/light-default.png">
 <img height=647 width=375 align="right" src="./files/usersignup/light-default.png">
-<br>
+
 Cleaner home screen, you will find only what you need
+
 <img height=647 width=375 align="center" src="./files/userhome/light-default.png">
 
 ### Search Support for Tasks
 Search seamlessly through all your tasks with an inituitive search.
+
 ![Search Demo](./files/search/light-default.gif)
+
 [more about the search](./docs/search)
 
 ### Recycle Bin Support
 Tasks App comes with a recycle bin support!
 See it in action below - 
+
 ![Recycle Bin Demo](./files/recyclebin/light-rbo.gif)
+
 [more about the recycle bin](./docs/recyclebin)
 
 ### Dark/light Theme Support
