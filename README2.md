@@ -1,19 +1,17 @@
 # Tasks App
-
-<img align="center" src="./assets/splash.png"/>
-
 ## About
 A simple task keeping app, written in react native for android and iOS devices
+<img align="center" src="./assets/splash.png"/>
 
 ## Features
 
 ### Minimal UI
 Watch a login or signup with no distractions in action
-<img height=647 width=375 src="./files/userlogin/light-default.png">
-<img height=647 width=375 src="./files/usersignup/light-default.png">
-
+<img height=647 width=375 align="left" src="./files/userlogin/light-default.png">
+<img height=647 width=375 align="right" src="./files/usersignup/light-default.png">
+<br>
 Cleaner home screen, you will find only what you need
-<img height=647 width=375 src="./files/userhome/light-default.png">
+<img height=647 width=375 align="center" src="./files/userhome/light-default.png">
 
 ### Search Support for Tasks
 Search seamlessly through all your tasks with an inituitive search.
