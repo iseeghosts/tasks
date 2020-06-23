@@ -45,34 +45,34 @@ Tasks app comes with dark/light theme mode and can be changed from settings
 #### Sign In Screen
 
 --------------
-<img height=647 width=375 align="center" src="./files/userlogin/light-default.png"> <img height=647 width=375 align="center" src="./files/userlogin/dark-default.png">
+<img height=647 width=375 align="center" src="./files/userlogin/light-default.png"><img height=647 width=375 align="center" src="./files/userlogin/dark-default.png">
 --------------
 
 #### Sign Up Screen
 
 --------------
-<img height=647 width=375 src ="./files/usersignup/light-default.png"> <img height=647 width=375 src ="./files/usersignup/dark-default.png">
+<img height=647 width=375 src ="./files/usersignup/light-default.png"><img height=647 width=375 src ="./files/usersignup/dark-default.png">
 
 --------------
 
 #### User Home Screen
 
 
-<img height=647 width=375 src="./files/userhome/light-default.png"> <img height=647 width=375 src="./files/userhome/dark-default.png">
+<img height=647 width=375 src="./files/userhome/light-default.png"><img height=647 width=375 src="./files/userhome/dark-default.png">
 
 
 
 #### Recycle Bin
 
 
-<img height=647 width=375 src="./files/recyclebin/light-default.png"> <img height=647 width=375 src="./files/recyclebin/dark-default.png">
+<img height=647 width=375 src="./files/recyclebin/light-default.png"><img height=647 width=375 src="./files/recyclebin/dark-default.png">
 
 
 
 #### User Settings Page
 
 
-<img height=647 width=375 src="./files/usersettings/light-default.png"> <img height=647 width=375 src="./files/usersettings/dark-default.png">
+<img height=647 width=375 src="./files/usersettings/light-default.png"><img height=647 width=375 src="./files/usersettings/dark-default.png">
 
 
 
