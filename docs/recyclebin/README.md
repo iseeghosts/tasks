@@ -13,7 +13,7 @@ Following options/functionalities are available in Recycle Bin
 ### Search in recycle bin
 You can easily search in your recycle bin, either through directly typing '@deleted' followed by task name in search bar or expanding the profile menu and clicking on the recycle bin button, which in turn will add @deleted term in search
 
-<img src="../../files/recyclebin/light-search.png">
+<img height=647 width=375 src="../../files/recyclebin/light-search.png">
 
 - you can further improve your results by adding task status (for example '@deleted @complete Sea' will show deleted tasks whic are completed and incudes the term sea in it)
 

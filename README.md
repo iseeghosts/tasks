@@ -1,6 +1,6 @@
 # Tasks App
 
-<img src="./assets/splash.png"/>
+<img height=647 width=375 src="./assets/splash.png"/>
 
 ## About
 A simple task keeping app, written in react native for android and iOS devices
@@ -11,15 +11,15 @@ A simple task keeping app, written in react native for android and iOS devices
 Watch a login or signup with no distractions in action
 
 
-<img src="./files/userlogin/light-default.png">
+<img height=647 width=375 src="./files/userlogin/light-default.png">
 
 
-<img src="./files/usersignup/light-default.png">
+<img height=647 width=375 src="./files/usersignup/light-default.png">
 
 Cleaner home screen, you will find only what you need
 
 
-<img src="./files/userhome/light-default.png">
+<img height=647 width=375 src="./files/userhome/light-default.png">
 
 
 ### Search Support for Tasks
@@ -48,31 +48,31 @@ Tasks app comes with dark/light theme mode and can be changed from settings
 #### Sign In Screen
 
 --------------
-<img align="center" src="./files/userlogin/dark-default.png">
+<img height=647 width=375 align="center" src="./files/userlogin/dark-default.png">
 --------------
 
 #### Sign Up Screen
 
 --------------
-<img src ="./files/usersignup/dark-default.png">
+<img height=647 width=375 src ="./files/usersignup/dark-default.png">
 --------------
 
 #### User Home Screen
 
 
-<img src="./files/userhome/dark-default.png">
+<img height=647 width=375 src="./files/userhome/dark-default.png">
 
 
 #### Recycle Bin
 
 
-<img src="./files/recyclebin/dark-default.png">
+<img height=647 width=375 src="./files/recyclebin/dark-default.png">
 
 
 #### User Settings Page
 
 
-<img src="./files/usersettings/dark-default.png">
+<img height=647 width=375 src="./files/usersettings/dark-default.png">
 
 
 

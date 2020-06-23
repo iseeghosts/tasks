@@ -9,20 +9,20 @@ In general, your search bar can hide under expanded User Options, but this can b
 If Always Show Search Mode Is Disabled & Profile Options are not expanded
 
 
-<img src="../../files/userhome/light-default.png">
+<img height=647 width=375 src="../../files/userhome/light-default.png">
 
 
 
 If Always Show Search Mode Is Disabled & Profile Options are expanded
 
 
-<img src="../../files/userhome/light-expanded.png">
+<img height=647 width=375 src="../../files/userhome/light-expanded.png">
 
 
 If Always show search mode is enabled and Profile Options are expanded
 
 
-<img src="../../files/userhome/light-ass-true.png">
+<img height=647 width=375 src="../../files/userhome/light-ass-true.png">
 
 
 ## How to access search
