@@ -50,8 +50,8 @@ export default function UserLogin() {
     let [passBoxVisibility, setPassBoxVisibility] = useState('none');       //enables password box in case userid is registered
     let [registeredUserid, setRegisteredUserid] = useState('none');         //enables visibility of login messages if needed.
     let [viewPassword, setViewPassword] = useState(Hide_Pass);              //image URI source for Password View
-    let [goHome, setGoHome] = useState(true);                              //goes to Home Screen if true
-    let [userid, setUserId] = useState('id1');                                 //sets userid if entered id is valid
+    let [goHome, setGoHome] = useState(false);                              //goes to Home Screen if true
+    let [userid, setUserId] = useState('');                                 //sets userid if entered id is valid
     let [signUp, setSignUp] = useState(false);                              //allows signing up
     let [dark, setDark] = useState(theme);                                  //sets theme for userlogin
     
