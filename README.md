@@ -23,7 +23,8 @@ Search seamlessly through all your tasks with an inituitive search.
 
 #<p align="center">
 ![Search Demo](./files/search/light-default.gif)
-  
+</p>
+<p align="center"> 
 [more about the search](./docs/search)
 </p>
 
