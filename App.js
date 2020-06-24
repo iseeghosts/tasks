@@ -28,6 +28,7 @@ import SignUp from './SignUp';
 /* importing list of users*/
 import Users from './users.json'
 
+var z = 0
 /*main Function */
 export default function UserLogin() {
 
@@ -78,7 +79,6 @@ export default function UserLogin() {
 /* verifying userid */
     function userid_check() {
         setUseridCheck(false);
-        var z = 0;
         if (useridEntered in Users) {     //userid is true
             setUserId(useridEntered);                
             setRegisteredUserid('none');
@@ -132,6 +132,7 @@ if (signUp) {
 
 /*home Screen */
 if (goHome) {
+
     // alert('Welcome ' + Users[userid].name+'!')
     return(
         <View style={{flex:1}}>

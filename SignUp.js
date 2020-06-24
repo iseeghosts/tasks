@@ -205,7 +205,8 @@ export default class SignUp extends Component {
                 Alert.alert("Account Creation",'Hi '+ Users[this.state.userid].name + '!\nYour account was created successfully!'
                 ,[
                     {text:'Ok!', onPress: () => this.setState({ name:'', userid:'', password:'', password2:'', displaySignUpBox:'none', enablePass1:true, enablePass2:true, showPass1:true, showPass2:true, result:'', result2:'', User_Status:User_Check_Light, Pass_View1:Hide_Pass, Pass_View2:Hide_Pass})},
-                    {text:'Go to home', onPress: () => {this.props.setUserId(this.state.userid); this.props.signUp(); this.props.goHome(true);alert('Click on the profile icon for more options!')}}
+                    {text:'Go to home', onPress: () => {this.props.setUserId(this.state.userid); this.props.signUp(); this.props.goHome(true);
+                        Alert.alert("Hello There " + this.state.name+"!",'Welcome to your Home!'+ '\n' + 'Click on the profile icon for more options!', [{text:'got it!'}])}}
                 ], {cancelable:true} )
             } else {
             this.setState({result2:messages[3]})
@@ -248,9 +249,10 @@ export default class SignUp extends Component {
                 color:dark?'#ffffff':'#000000'
             }
         ])
-        var passwordverifybutton = StyleSheet.flatten([
+        var passwordviewbutton = StyleSheet.flatten([
             styles.useridverifybutton, {
-                marginHorizontal:5
+                marginTop:2.5,
+                marginRight:5
             }
         ])
         /* end of stylesheet mods*/
@@ -345,7 +347,7 @@ export default class SignUp extends Component {
                                     activeOpacity={1}
                                     disabled={(!this.state.enablePass1)}
                                     underlayColor={'#747474'}
-                                    style={passwordverifybutton} 
+                                    style={passwordviewbutton} 
                                     onPress={()=> this.setState({Pass_View1:(this.state.Pass_View1==Hide_Pass ? Show_Pass:Hide_Pass)})}>
                                     <Image style={styles.thumb} source={this.state.Pass_View1} />
                                 </TouchableOpacity>
@@ -371,7 +373,7 @@ export default class SignUp extends Component {
                                     activeOpacity={1}
                                     disabled={!this.state.enablePass2}
                                     underlayColor={'#747474'}
-                                    style={passwordverifybutton}
+                                    style={passwordviewbutton}
                                     onPress={()=> this.setState({Pass_View2:(this.state.Pass_View2==Hide_Pass ? Show_Pass:Hide_Pass)})}>
                                     <Image style={styles.thumb} source={this.state.Pass_View2} />
                                 </TouchableOpacity>
@@ -486,6 +488,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         height:40,
         alignContent:'center',
+        justifyContent:'center',
         marginBottom:15,
         shadowRadius:7,
         shadowOpacity:0.7,
