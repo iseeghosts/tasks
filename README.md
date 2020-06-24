@@ -24,7 +24,7 @@ Search seamlessly through all your tasks with an inituitive search.
 #<p align="center">
 ![Search Demo](./files/search/light-default.gif)
   
-[more about the search](./docs/search)
+For more information on how to filter your searches refer to this [link](./docs/search)
 </p>
 
 ### Recycle Bin Support
@@ -34,7 +34,7 @@ See it in action below -
 #<p align="center">
 ![Recycle Bin Demo](./files/recyclebin/light-rbo.gif)
   
-[more about the recycle bin](./docs/recyclebin)
+For more information about recycle bin, click on this [link](./docs/recyclebin)
 </p>
 
 ### Dark/light Theme Support
