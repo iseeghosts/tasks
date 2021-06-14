@@ -8,19 +8,19 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "expo": "~37.0.12",
-    "expo-cli": "^3.21.5",
+    "expo": "~41.0.1",
+    "expo-cli": "^4.5.2",
     "logkitty": "^0.7.1",
-    "mem": "^6.1.0",
-    "react": "~16.13.1",
-    "react-dom": "~16.13.1",
+    "mem": "^8.1.1",
+    "react": "~17.0.2",
+    "react-dom": "~17.0.2",
     "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.1.tar.gz",
-    "react-native-appearance": "~0.3.3",
-    "react-native-web": "~0.12.3"
+    "react-native-appearance": "~0.3.4",
+    "react-native-web": "~0.16.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.2",
-    "babel-preset-expo": "^8.2.1"
+    "@babel/core": "^7.14.5",
+    "babel-preset-expo": "^8.3.0"
   },
   "private": true
 }
