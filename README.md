@@ -1,3 +1,4 @@
+# The repo is officially archived due to prelonged non-maintenance by the owner of this repo.
 # Tasks App
 ## About
 A simple task keeping app, written in react native for android and iOS devices
